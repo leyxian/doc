@@ -1,0 +1,28 @@
+git 使用大全
+
+git init
+把当前文件夹初始化为git本地仓库
+
+git add .
+将当前文件夹下所有文件加入git跟踪
+
+git commit -am 'init'
+记录下已经修改的文件
+
+git push origin [远程仓库只有一个可不写,默认,后面命令同理]
+推送本地日志到远程origin仓库
+
+git fetch 
+下载远程origin仓库日志更新本地文件
+
+git remote add origin url
+添加远程仓库
+
+git remote remove orgin
+删除远程仓库
+
+git merge
+合并远程仓库，实际是获取别人提交的远程仓库日志
+有冲突，找到冲突的文件，备份转移。在git merge,在比较备份和获取的文件，进行调整修改在推送远程仓库
+
+分支系统自己理解
