@@ -1,5 +1,10 @@
 git 使用大全
 
+ssh -keygen -t rsa -C "your_email@youremail.com"
+一直Enter
+造密钥 默认存在在用户文件夹/.ssh/id_rsa.pub
+例：C:/Users/user/(windows) ~/.ssh(linux)
+
 git init
 把当前文件夹初始化为git本地仓库
 
@@ -18,10 +23,10 @@ git fetch
 git remote add origin url
 添加远程仓库
 
-git remote remove orgin
+git remote remove origin
 删除远程仓库
 
-git merge master orgin/master
+git merge master origin/master
 合并远程仓库，实际是获取别人提交的远程仓库日志
 有冲突，找到冲突的文件，备份转移。在git merge,在比较备份和获取的文件，进行调整修改在推送远程仓库
 
