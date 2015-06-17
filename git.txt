@@ -26,6 +26,7 @@ git remote add origin url
 git remote remove origin
 删除远程仓库
 
+git fetch
 git merge master origin/master
 合并远程仓库，实际是获取别人提交的远程仓库日志
 有冲突，找到冲突的文件，备份转移。在git merge,在比较备份和获取的文件，进行调整修改在推送远程仓库
