@@ -17,6 +17,10 @@ git commit -am 'init'
 git push origin [远程仓库只有一个可不写,默认,后面命令同理]
 推送本地日志到远程origin仓库
 
+git push -u origin master
+强制推送本地的master分支推送到origin主机的master分支
+覆盖推送慎重
+
 git fetch 
 下载远程origin仓库日志更新本地文件
 
