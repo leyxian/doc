@@ -48,9 +48,10 @@
 </div>
 <script type="text/javascript">
 /**
- * [scroller 滚动插件]
- * @param    {[type]} tag [description]
- * @return  {[type]}     [description]
+ * [scroller 滚动JS]
+ * @param  {[type]} tag [标签]
+ * @param  {[type]} sec [执行间隔时间秒]
+ * @return {[type]}     [description]
  */
 function scroller(tag, sec){
     var obj = new Object();
@@ -59,8 +60,8 @@ function scroller(tag, sec){
     obj.t = null;
     obj.init = function(){
         var li_height = $(tag).children('ul').children('li').eq(0).innerHeight();
-        obj.offsetHeiht = li_height + 1;
-        $(tag).children('ul').mouseover(function(){
+        obj.offsetHeiht = li_height + 1;    //1px边框
+        $(tag).children('ul').mouseover(function(){ //鼠标移入停止动画
             clearInterval(obj.t);
         }).mouseout(function(){
             obj.t = setInterval(function(){ obj.move(); }, obj.sec);
