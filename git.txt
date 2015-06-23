@@ -1,6 +1,6 @@
 git 使用大全
 
-ssh -keygen -t rsa -C "your_email@youremail.com"
+ssh-keygen -t rsa -C "your_email@youremail.com"
 一直Enter
 造密钥 默认存在在用户文件夹/.ssh/id_rsa.pub
 例：C:/Users/user/(windows) ~/.ssh(linux)
