@@ -77,7 +77,7 @@
             if($(bg).length < 1)
                 $('body').append('<div class="'+bg.replace(/(^\.*)/,"")+'"></div>');  
             $(tag).css({'margin-top': '-'+$(tag).height()/2+'px','margin-left': '-'+$(tag).width()/2+'px'});
-            $(bg).on('click', function(){
+            $(bg).on('click', function(){   //关闭
                 obj.hidden();
             });
             return obj;
