@@ -5,9 +5,9 @@ ssh-keygen -t rsa -C "your_email@youremail.com"
 造密钥 默认存在在用户文件夹/.ssh/id_rsa.pub
 例：C:/Users/user/(windows) ~/.ssh(linux)
 
-git config -- user.name wxx
+git config --global user.name wxx
 
-git config user.email wxx420@foxmail.com
+git config --global user.email wxx420@foxmail.com
 
 git init
 把当前文件夹初始化为git本地仓库
