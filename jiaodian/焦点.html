@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>焦点图</title>
+<style type="text/css">
+*{ margin:0; padding:0;}
+body{ color:#333; font-size:12px; background:#036;}
+a{ color:#fff;}
+ul{ list-style:none;}
+.w911{ width:911px; margin:0 auto;}
+.w740{ width:740px;margin:0 auto;}
+.skin-btn{ box-shadow:1px 1px 3px #333;}
+.s-center{ text-align:left;}
+img{ border:0px;}
+
+#head-wrap{ text-align:center;cursor: default; font-size:0;}
+#nav{ font-size:14px;}
+#nav a{ text-decoration:underline; display: inline-block; margin-left:10px;}
+#s-fm{ margin-top:10px; position:relative; text-align:left; height:43px;}
+#s-wrap{ padding-left:50px;}
+#kw{ padding:10px 9px 10px 7px;; height:20px; line-height:20px; box-shadow:0px 1px 2px #999; width:520px;}
+#icon-wrap{ display:inline-block; border:none; background:url(images/icon.png);}
+#icon-wrap input{ border:0px; background-position:-200px 0px;   height:41px; width:104px; cursor:pointer;}
+
+#con-wrap{ border:1px red solid; margin-top:40px; min-height:100%; margin-bottom:40px;}
+#menu{ height:286px; position:relative;}
+.wrap-ul{ width:80px;}
+.wrap-ul li{ text-align:center;}
+.wrap-ul li a{ display:inline-block; height:34px; line-height:34px; width:80px; background:#2C2222 ; opacity:0.3;}
+.narrow{ background: url(images/news_all_b6796497.png) no-repeat; height:36px; width:19px; position:absolute;left:11px; top:115px; }
+.bar{ height:227px; width:40px; position:absolute; top:0px; cursor:pointer;}
+.pre-img{ left:0;}
+.next-img{ right:0;}
+
+.ve-img{ position: absolute; top:0;}
+.new-img{ position:relative; height:425px; height:260px; overflow:hidden; white-space:nowrap;}
+</style>
+</head>
+
+<body>
+	<div id="head-wrap" class="w740">
+    	<p id="logo"><img height="129px" width="270px" src="images/LOGO.png" /></p>
+        <p id="nav">
+        	<a class="s-menu">新闻</a>
+            <a class="s-menu">网页</a>
+            <a class="s-menu">贴吧</a>
+            <a class="s-menu">知道</a>
+            <a class="s-menu">音乐</a>
+            <a class="s-menu">图片</a>
+            <a class="s-menu">视频</a>
+            <a class="s-menu">地图</a>
+            <a class="s-menu">百科</a>
+            <a class="s-menu">文集</a>
+            <a class="s-menu">更多》</a>
+        </p>
+        <div id="s-fm" >
+        	<div id="s-wrap">
+            	<form id="form">
+                    <span id="s-con">
+                        <input id="kw" type="text" maxlength="100" name="wd" />
+                    </span>
+                    <span id="icon-wrap" class="skin-btn">
+                        <input id="sbut" style="font-size:14px;"  type="submit" value="百度一下" />
+                    </span>
+           		 </form>
+            </div>
+        </div>
+    </div>
+    <div id="con-wrap" >
+    	<div id="main" class="w911">
+        	<div id="menu">
+            	<div id="men-wrap">
+                	<ul class="wrap-ul">
+                    	<li><a href="#"><span>导航</span></a></li>
+                        <li><a href="#">新闻</a></li>
+                        <li><a href="#">音乐</a></li>
+                        <li><a href="#">星座</a></li>
+                        <li><a href="#">团购</a></li>
+                        <li><a href="#">视频</a></li>
+                        <li><a href="#">小说</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="center-con">
+            	<div id="con-wrap">
+                	<div class="new-img bar">
+                    	<div class="img-con">
+                        	<div class="ve-img">
+                            	<a href="#"><img width="425" height="260" src="images/tu1.jpg" /></a>
+                                <a><img width="425" height="260" src="images/tu2.jpg" /></a>
+                                <a><img width="425" height="260" src="images/tu3.jpg" /></a>
+                                <a><img width="425" height="260" src="images/tu4.jpg" /></a>
+                                <a><img width="425" height="260" src="images/tu5.jpg" /></a>
+                                <a><img width="425" height="260" src="images/tu6.jpg" /></a>
+                                <a><img width="425" height="260" src="images/tu7.jpg" /></a>
+                            </div>
+                        </div>
+                        <div class="l-img pre-img">
+                        	<div class="narrow"></div>
+                        </div>
+                        <div class="r-img next-img ">
+                        	<div class="narrow"></div>
+                        </div>
+                        <a href="" target="_blank"></a>
+                        <div class="title-mask"></div>
+                        <div class="img-bar"></div>
+                    </div>
+                    <div class="ne-list"></div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</body>
+</html>
