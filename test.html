@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>背景切换</title>
+    <!-- Bootstrap -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+    <style type="text/css">
+        .a1 { background-color: #ccc; }
+        .a2 { background-color: #ccc; }
+        .a3 { background-color: #ccc; }
+        .a4 { background-color: #ccc; }
+        .on-a1 { background-color: #ddd; }
+        .on-a2 { background-color: #ddd; }
+        .on-a3 { background-color: #ddd; }
+        .on-a4 { background-color: #ddd; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>改变背景</h1>
+    <ul class="list-group col-md-3">
+        <li><a class="list-group-item a1" href="javascript:">111</a></li>
+        <li><a class="list-group-item a2" href="javascript:">222</a></li>
+        <li><a class="list-group-item a3" href="javascript:">333</a></li>
+        <li><a class="list-group-item a4" href="javascript:">444</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $('.list-group-item').click(function(){
+        init();
+        var index = $('.list-group-item').index($(this))+1;
+        $(this).removeClass('a'+index).addClass('on-a'+index);
+    });
+    function init(){
+        $('.list-group-item').each(function(i, v){
+            var index = ++i;
+            $(this).removeClass('on-a'+index).addClass('a'+index);
+        });
+    }
+    
+</script>
+
+    <!-- Scripts -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>

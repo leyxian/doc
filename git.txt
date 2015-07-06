@@ -1,14 +1,17 @@
 git 使用大全
 
+【密钥】
 ssh-keygen -t rsa -C "your_email@youremail.com"
 一直Enter
 造密钥 默认存在在用户文件夹/.ssh/id_rsa.pub
 例：C:/Users/user/(windows) ~/.ssh(linux)
 
+【绑定用户】
 git config --global user.name wxx
 
 git config --global user.email wxx420@foxmail.com
 
+【操作】
 git init
 把当前文件夹初始化为git本地仓库
 
@@ -43,3 +46,10 @@ git remote -v
 查看所有远程仓库
 
 分支系统自己理解
+
+【屏蔽文件】
+.gitignore
+使用通配符屏蔽不需要的文件或目录
+*.log   所有以.log为结尾的文件
+data/*  目录中结构中出现data,例：/data/*,/upload/data/*,……
+/data/* 根目录下data
