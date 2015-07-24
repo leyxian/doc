@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+<title>sildeToggle</title>
+<style type="text/css">
+body{ font-size:12px ; font-family: "微软雅黑";}
+*{ margin:0; padding:0;}
+.box ul{ width:1200px; margin:0 auto;}
+.box ul li{ list-style:none; padding:0 20px; width:50px; }
+.box ul li a{ text-align:center; text-decoration:none; color:#333;  }
+.box ul li a:hover{ color:#399;}
+.box-sub{ width:900px; background:#fff; line-height:30px;}
+.subitem{ display:none;}
+.now{ background:#fff;}
+</style>
+<script src="http://img.igree.com.cn/recourse/js/jquery-1.9.0.min.js"></script>
+</head>
+
+<body>
+    <div class="box">
+            <ul>
+                <li class="now">
+                    <a href="#">项目一</a>
+                    <div class="box-sub">
+                        <span>  
+    在线学习bootstrap视频教程，深入了解bootstrap前端开发框架，让web开发更迅速，更简单!bootstrap在线学习，通过全新实战的..</span>
+                    </div>
+                <>
+                <li>
+                    <a href="#">项目二</a>
+                    <div class="box-sub subitem">
+                        <span>Bootstrap是Twitter推出的一个用于前端开发的开源工具包。它由Twitter的设计师Mark Otto和Jacob Thornton合作开发,是一个CSS/HTML框架。目前,Bootstrap最新版本为3.0 。...</span>
+                    </div>
+                <>
+                <li>
+                    <a href="#">项目三</a>
+                    <div class="box-sub subitem">
+                        <span>Bootstrap，来自 Twitter，是目前最受欢迎的前端框架。Bootstrap 是基于 HTML、CSS、JAVASCRIPT 的，它简洁灵活，使得 Web 开发更加快捷。它由Twitter的设计师Mark Otto和Jacob... </span>
+                    </div>
+                <>
+            </ul>
+    </div>
+   <script>
+        $(function(){
+            $(".box ul li").click(function(){
+                $('.box-sub').hide();
+                $(this).children('div').slideToggle();
+            });
+            // var i=$(".box ul li").index($(this))
+            
+            // $(".box ul li").each(function(i, el) {
+                
+            //     $(this).click(function(){
+                    
+            //         $(".box-sub").eq(i).slideToggle()
+                    
+            //         }) 
+                
+            // });
+            
+            })
+   </script>
+</body>
+<ml>

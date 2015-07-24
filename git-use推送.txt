@@ -1,3 +1,0 @@
-有新文件就git add .
-没有新文件就直接git commit -am 
-在就是推送远程 git push <文件名> master
