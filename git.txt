@@ -1,4 +1,4 @@
-git 使用大全
+﻿git 使用大全
 
 【密钥】
 ssh-keygen -t rsa -C "ah.liulei@foxmail.com"
@@ -44,6 +44,9 @@ git merge master origin/master
 
 git remote -v
 查看所有远程仓库
+
+git rm -r cached /cache/*
+删除跟踪的文件
 
 分支系统自己理解
 
