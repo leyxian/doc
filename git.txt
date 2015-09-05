@@ -63,3 +63,15 @@ git gc
 *.log   所有以.log为结尾的文件
 data/*  目录中结构中出现data,例：/data/*,/upload/data/*,……
 /data/* 根目录下data
+
+<!-- php -->
+/.svn/*
+cache/*
+tmp/*
+temp/*
+upload/*
+*.php.tpl
+*.cache
+*.log
+*.sql
+*.zip
