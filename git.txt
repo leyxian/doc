@@ -31,7 +31,7 @@ git push -f origin master
 强制覆盖推送到远程仓库
 
 git fetch 
-下载远程origin仓库日志更新本地文件
+下载远程origin仓库日志
 
 git remote add origin url
 添加远程仓库
@@ -67,11 +67,11 @@ data/*  目录中结构中出现data,例：/data/*,/upload/data/*,……
 /data/* 根目录下data
 
 <!-- php -->
-/.svn/*
-cache/*
-tmp/*
-temp/*
-upload/*
+.svn/
+cache/
+tmp/
+temp/
+upload/
 *.php.tpl
 *.cache
 *.log
