@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<script type="text/javascript">
+var user = function(a){
+    if(a == '娴娴')
+        return '吃货';
+}
+console.log(user('娴娴'));
+var user = function(name){
+    var users = new object();
+    users.name = '';
+    users.fav = '';
+    user.name = function(){
+        users.name = name;
+    }
+    user.fav = function(){
+        if(users.name=='娴娴'){
+            return '狂吃';
+        }
+    }
+    return users;
+}
+console.log(user('娴娴').fav());
+</script>
+</body>
+</html>
