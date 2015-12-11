@@ -29,10 +29,7 @@
 <div class="container">
     <h1>影藏/显示</h1>
     <div class="lunbo1" role="listbox">
-        <ul>
-            <li><img src="https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=88c2e98e64d9f2d3204477afcfd1be21/80cb39dbb6fd52662320ea7bad18972bd4073652.jpg"></li>
-            <li><img src="https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=bbee48a445166d22382246d4201e3dc5/d043ad4bd11373f06c17a0f0a20f4bfbfbed04b1.jpg"></li>
-            <li><img src="https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=6a420e7b6d600c33f02c8d887c71653d/eac4b74543a98226cedde6488c82b9014a90eb45.jpg"></li>
+        <ul class="list-unstyled">
             <li><img src="https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=88c2e98e64d9f2d3204477afcfd1be21/80cb39dbb6fd52662320ea7bad18972bd4073652.jpg"></li>
             <li><img src="https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=bbee48a445166d22382246d4201e3dc5/d043ad4bd11373f06c17a0f0a20f4bfbfbed04b1.jpg"></li>
             <li><img src="https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=6a420e7b6d600c33f02c8d887c71653d/eac4b74543a98226cedde6488c82b9014a90eb45.jpg"></li>
@@ -82,37 +79,37 @@ $(function(){
  * @return {[type]}     [description]
  */
 function scroller2(tab, sec){
-    var obj = new Object();
-    obj.tag = $(tab+' ul li');
-    obj.sec = sec;
-    obj.t = null;
-    obj.ind = 0;
-    obj.init = function(){
+    var obj = new Object();     //创建一个对象
+    obj.tag = $(tab+' ul li');  //对象tag属性赋值 html元素对象
+    obj.sec = sec;              //对象sec属性接收传入的sec值
+    obj.t = null;               //对象t默认空，后面赋值定时对象
+    obj.ind = 0;                //对象ind, 后面赋值当前显示元素下标
+    obj.init = function(){      //对象init方法初始化下标值
         for (var i = obj.tag.length - 1; i >= 0; i--) {
             if($(obj.tag).eq(i).css('display')!=='none'){
                 obj.ind = i; break;
             }   
         }
     },
-    obj.run = function(){
+    obj.run = function(){   //对象run方法执行定时任务
         obj.init();
         obj.t = setInterval(function(){ obj.next(); }, obj.sec);
     },
-    obj.stop = function(){
+    obj.stop = function(){  //对象stop方法执行停止任务
         clearInterval(obj.t);
         obj.t = null;
     },
-    obj.next = function(){
+    obj.next = function(){  //对象next方法执行往后切换显示与影藏
         obj.ind = obj.ind + 1 > $(obj.tag).length -1 ? 0 : obj.ind + 1;
         $(obj.tag).hide();
         $(obj.tag).eq(obj.ind).show();
     },
-    obj.pre = function(){
+    obj.pre = function(){   //对象pre方法执行往前切换显示与影藏
         obj.ind = obj.ind - 1 < 0 ? $(obj.tag).length -1 : obj.ind - 1;
         $(obj.tag).hide();
         $(obj.tag).eq(obj.ind).show();
     }
-    return obj;
+    return obj; //返回对象
 }
 
 /**
