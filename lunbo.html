@@ -36,6 +36,7 @@
         </ul>
     </div>
     <a class="pre" href="javascript:;">上一位</a>
+    <a class="run" href="javascript:;">开始</a>
     <a class="stop" href="javascript:;">停止</a>
     <a class="next" href="javascript:;">下一位</a>
     <h1>滚动</h1>
@@ -71,6 +72,9 @@ $(function(){
     $('a.stop').click(function(){
         lb.stop();
     });
+    $('a.run').click(function(){
+        lb.run();
+    });
 });
 /**
  * [scroller2 显示影藏轮播]
@@ -93,21 +97,26 @@ function scroller2(tab, sec){
     },
     obj.run = function(){   //对象run方法执行定时任务
         obj.init();
-        obj.t = setInterval(function(){ obj.next(); }, obj.sec);
+        if(!obj.t)
+            obj.t = setInterval(function(){ obj.next(); }, obj.sec);
     },
     obj.stop = function(){  //对象stop方法执行停止任务
         clearInterval(obj.t);
         obj.t = null;
     },
     obj.next = function(){  //对象next方法执行往后切换显示与影藏
+        obj.stop();
         obj.ind = obj.ind + 1 > $(obj.tag).length -1 ? 0 : obj.ind + 1;
         $(obj.tag).hide();
         $(obj.tag).eq(obj.ind).show();
+        obj.run();
     },
     obj.pre = function(){   //对象pre方法执行往前切换显示与影藏
+        obj.stop();
         obj.ind = obj.ind - 1 < 0 ? $(obj.tag).length -1 : obj.ind - 1;
         $(obj.tag).hide();
         $(obj.tag).eq(obj.ind).show();
+        obj.run();
     }
     return obj; //返回对象
 }
