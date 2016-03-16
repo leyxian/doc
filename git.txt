@@ -59,6 +59,10 @@ git count-objects -v
 
 git gc
 
+【覆盖】
+git fetch --all
+git reset --hard origin/master
+
 【屏蔽文件】
 .gitignore
 使用通配符屏蔽不需要的文件或目录

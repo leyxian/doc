@@ -1,3 +1,18 @@
 mysql -uroot -p'' db
 
+CREATE USER 'username'@'host' IDENTIFIED BY 'password';
+GRANT privileges ON databasename.tablename TO 'username'@'host'
+GRANT ALL ON *.* TO 'pig'@'%';
+
 grant all privileges on *.* to root@114.98.36.192  identified by 'zq1988';
+
+show variables like '%query%';
+[mysqld]
+log-slow-queries = /home/wwwlogs/mysql_slow_query.log
+long_query_time=3
+
+mysqldump -u root -p test > c:/a.sql
+
+mysql -u root -p
+mysql>use Êý¾Ý¿â
+mysql>source d:wcnc_db.sql
