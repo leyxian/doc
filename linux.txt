@@ -19,5 +19,36 @@ yum clean headers
 yum clean packages
 
 yum clean oldheaders
- 
- 
+
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c 
+
+cat /proc/cpuinfo | grep physical | uniq -c 
+
+cat /proc/meminfo 
+
+日志切割
+usr/local/tomcat/apache-tomcat-7.0.54/logs/catalina.out {
+
+	rotate 31
+
+	daily
+	
+copytruncate
+
+	compress
+
+	notifempty
+
+	missingok
+	
+dateext
+
+}
+rotate 31 表示保留31天的备份文件  
+daily 表示每天整理一次  
+copytruncate 表示先复制log文件的内容，然后再清空  
+compress 表示压缩备分文件  
+missingok 表示如果找不到log文件也没OK  
+notifempty 表示如果log文件是空的，就不进行rotate  
+dateext 表示备份的日志文件后缀格式为YYYYMMDD
+可以通过/usr/sbin/logrotate -f /etc/logrotate.conf来执行
