@@ -47,19 +47,26 @@ git merge master origin/master
 git remote -v
 查看所有远程仓库
 
-git rm -r cached /cache/*
+git rm -r --cache /cache/*
 删除跟踪的文件
 
 【分支系统】
 git branch test
 git checkout test
+git push 本地分支:远程分支
+
+【分支合并】
+git merge 分支名
+
+【提取分支文件】
+git checkout 分支名 文件
 
 【数据库维护】
 git count-objects -v
 
 git gc
 
-【覆盖】
+【覆盖本地】
 git fetch --all
 git reset --hard origin/master
 
