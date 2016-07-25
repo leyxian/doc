@@ -2,6 +2,8 @@ du -h --max-depth=1 /
 
 lsof | grep delete
 
+ps -ef | grep php
+
 kill -9 xxxx
 
 whereis httpd

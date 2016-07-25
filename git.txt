@@ -52,6 +52,8 @@ git rm -r --cache /cache/*
 
 【分支系统】
 git branch test
+【删除分支】
+git branch -D test
 git checkout test
 git push 本地分支:远程分支
 
