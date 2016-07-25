@@ -4,7 +4,7 @@ CREATE USER 'username'@'host' IDENTIFIED BY 'password';
 GRANT privileges ON databasename.tablename TO 'username'@'host'
 GRANT ALL ON *.* TO 'pig'@'%';
 
-grant all privileges on *.* to root@114.98.36.192  identified by 'zq1988';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'huawei' WITH GRANT OPTION; FLUSH PRIVILEGES;
 
 show variables like '%query%';
 [mysqld]
