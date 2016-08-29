@@ -54,3 +54,7 @@ missingok 表示如果找不到log文件也没OK
 notifempty 表示如果log文件是空的，就不进行rotate  
 dateext 表示备份的日志文件后缀格式为YYYYMMDD
 可以通过/usr/sbin/logrotate -f /etc/logrotate.conf来执行
+
+## 后台运行命令
+nohup command {option} > myout.file 2>&1 &?
+

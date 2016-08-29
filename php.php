@@ -93,4 +93,49 @@ if($_FILES['file']){
     fclose($fp);
     exit;
 }
+
+if($_FILES['file']){
+  $partinfo = pathinfo($_FILES['file']['name']);
+  if(in_array($partinfo['extension'], array('xls'))){
+      require(INC_PATH.'/PHPExcel/Classes/PHPExcel.php');
+      require(INC_PATH.'/PHPExcel/Classes/PHPExcel/IOFactory.php');
+      require(INC_PATH.'/PHPExcel/Classes/PHPExcel/Reader/Excel5.php');
+      $objReader = PHPExcel_IOFactory::createReader('Excel5');
+      $objPHPExcel = $objReader->load($_FILES['file']['tmp_name']);
+      $objWorksheet = $objPHPExcel->getActiveSheet();
+      $highestRow = $objWorksheet->getHighestRow(); 
+      $highestColumn = $objWorksheet->getHighestColumn();
+      $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+      $data = array();
+      $date = '0'; $mdate = date('Y-m-d');
+      $fields = array('date', 'abstract', 'subject', 'income', 'expenditure', 'balance', 'document_no');
+      for ($row = 1; $row <= $highestRow; $row++){
+          if($row <= 2) continue;
+          for ($col = 0;$col < $highestColumnIndex;$col++){
+              if($col >= 8) break;
+              $arr = $objWorksheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
+              if(!$arr && $col==0) break;
+              if($col==0){
+                  $rp = array('.'=>'-');
+                  $arr = strtr($arr, $rp);
+                  $date = max($date, date('Y-m-d', strtotime($arr)));
+                  $mdate = min($mdate, date('Y-m-d', strtotime($arr)));
+              }
+              if($col==1){
+                  $coord = $objWorksheet->getCellByColumnAndRow($col, $row)->getCoordinate();
+                  $abstract1 = $objWorksheet->getComment($coord)->getText()->getPlainText();
+                  // if($abstract1){
+                  //     pr('乱码');
+                  //     pr($abstract1);
+                  //     pr($objWorksheet->getCellByColumnAndRow($col, $row));die;
+                  // }
+                  $data[$row-3][$fields[$col].'1'] = $abstract1;
+              }
+              $data[$row-3][$fields[$col]] = $arr;
+          }
+      }
+      $days = ceil((strtotime($date) - strtotime($mdate))/86400);
+  }else{
+      exit('<script>alert("请上传正确的表格文件"); window.history.back(); </script>');
+  }
 ?>
