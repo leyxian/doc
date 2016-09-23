@@ -138,4 +138,7 @@ if($_FILES['file']){
   }else{
       exit('<script>alert("请上传正确的表格文件"); window.history.back(); </script>');
   }
+
+setlocale(LC_ALL, "en_US.UTF-8");
+setlocale(LC_ALL, 'zh_CN');
 ?>
