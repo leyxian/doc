@@ -58,3 +58,6 @@ dateext 表示备份的日志文件后缀格式为YYYYMMDD
 ## 后台运行命令
 nohup command {option} > myout.file 2>&1 &?
 
+## 开放端口
+netstat -tunlp
+

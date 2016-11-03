@@ -4,7 +4,7 @@ CREATE USER 'username'@'host' IDENTIFIED BY 'password';
 GRANT privileges ON databasename.tablename TO 'username'@'host'
 GRANT ALL ON *.* TO 'pig'@'%';
 
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'huawei' WITH GRANT OPTION; FLUSH PRIVILEGES;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;
 
 show variables like '%query%';
 [mysqld]
@@ -14,7 +14,7 @@ long_query_time=3
 mysqldump -u root -p test > c:/a.sql
 
 mysql -u root -p
-mysql>use ���ݿ�
+mysql>use Êý¾Ý¿â
 mysql>source d:wcnc_db.sql
 
 ALTER TABLE `table_name` ADD PRIMARY KEY ( `column` ) 
@@ -23,5 +23,32 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column` )
 ALTER TABLE `table_name` ADD FULLTEXT ( `column`) 
 ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` )
 
-#�ָ��ַ�����
+#·Ö¸î×Ö·û¼ÆËã
 Select (length(oids) - length(replace(oids,',',''))+1) as onum 
+
+##清除bin日志
+reset master
+
+####备份脚本####
+#!/bin/sh
+ID="root" #用户名
+#PWD="root" #密码
+DBS="db_zy audit" #数据库名字的列表，多个数据库用空格分开。
+BACKPATH="/home/vagrant/Code/mysql" #保存备份的位置
+DAY=7  #保留最近几天的备份
+[ ! -d $backpath ] &&mkdir -p $BACKPATH  #判断备份目录是否存在，不存时新建目录。
+cd $BACKPATH  #转到备份目录，这句话可以省略。可以直接将路径到命令的也行。
+#生成备份文件的名字的前缀，不带后缀。
+backupname=mysql_$(date +%Y-%m-%d)  
+for db in $DBS;  #dbs是一个数据名字的集合。遍历所有的数据。
+do
+  mysqldump $db -u$ID -proot > $backupname_$db.sql  #备份单个数据为.sql文件。放到当前位置
+done
+#压缩所有sql文件
+tar -czf $backupname.tar.gz *.sql
+#删除所有的sql文件
+rm -f *.sql
+#得到要删除的太旧的备份的名字。
+delname=mysql_$(date -d "$DAY day ago" +%Y-%m-%d).tar.gz
+#删除文件
+rm -f $delname
