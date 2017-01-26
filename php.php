@@ -138,5 +138,5 @@ if(curl_errno($ch)){
     echo curl_error($ch)."\r\n"; die;
 }
 curl_close($ch);
-echo $contents."\r\n";
+preg_match_all('/<td>([\d\.]+)<\/td>[^<]+<td>(\d+)</', $contents, $matches);
 ?>
