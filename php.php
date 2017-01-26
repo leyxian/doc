@@ -7,24 +7,6 @@ if($_FILES['file']){
       setlocale(LC_ALL, 'zh_CN');
       while($data = fgetcsv($handle, 1000, ",")){
         $tag = ''; $data[2] = iconv('GBK', 'UTF-8', $data[2]);
-        if(strpos($data[2], '日本转运到中国')!==false || strpos($data[2], '日亚转运到中国')!==fals){
-          $tag = '日转转运费';
-        }elseif(strpos($data[2], '日亚代购现货')!==false){
-          $tag = '五式充值费';
-        }
-        if(is_numeric(trim($data[0])) && strlen($data[0])>=12 && $tag){
-          $data[5] = strtr($data[5], array('('=>'', ')'=>''));
-          $tparr = explode(' ', $data[5]);
-          $row[0] = iconv('GBK', 'UTF-8', trim($tparr[1]));
-          $row[1] = iconv('GBK', 'UTF-8', trim($tparr[0]));
-          $row[2] = $data[1];
-          $row[3] = $data[4];
-          $row[4] = $data[6];
-          $row[5] = '';
-          $row[6] = '其他收入';
-          $row[7] = $tag;
-          $rows[] = $row; unset($row);
-        }
       }
       fclose($handle);
     }
@@ -141,4 +123,20 @@ if($_FILES['file']){
 
 setlocale(LC_ALL, "en_US.UTF-8");
 setlocale(LC_ALL, 'zh_CN');
+
+//代理IP
+$url = 'http://31f.cn/area/%E7%BE%8E%E5%9B%BD/';
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+$contents = curl_exec($ch);
+if(curl_errno($ch)){
+    echo curl_error($ch)."\r\n"; die;
+}
+curl_close($ch);
+echo $contents."\r\n";
 ?>

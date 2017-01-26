@@ -1,0 +1,2 @@
+sed -i '2aDBSelect="0"' include/version.sh
+sed -i 's/&& "$isDB" = "ok"//g' include/end.sh

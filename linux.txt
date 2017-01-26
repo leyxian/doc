@@ -46,6 +46,9 @@ copytruncate
 dateext
 
 }
+
+mount /dev/xvdb1 /transimg
+
 rotate 31 表示保留31天的备份文件  
 daily 表示每天整理一次  
 copytruncate 表示先复制log文件的内容，然后再清空  
