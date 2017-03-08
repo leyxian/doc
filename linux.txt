@@ -22,6 +22,9 @@ yum clean packages
 
 yum clean oldheaders
 
+¶Ë¿Ú¼ì²â
+netstat -a | egrep 'Proto|LISTEN'
+
 cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c 
 
 cat /proc/cpuinfo | grep physical | uniq -c 

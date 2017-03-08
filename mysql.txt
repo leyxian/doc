@@ -6,6 +6,8 @@ GRANT ALL ON *.* TO 'pig'@'%';
 
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;
 
+grant replication slave on *.* to 'replicate'@'218.206.70.146' identified by '123456'; flush privileges;
+
 show variables like '%query%';
 [mysqld]
 log-slow-queries = /home/wwwlogs/mysql_slow_query.log
