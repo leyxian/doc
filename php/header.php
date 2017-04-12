@@ -1,5 +1,4 @@
-<?php
-<?php2 /** 3 * php header函数用法举例
+<?php /** 3 * php header函数用法举例
 * 整理：www.jbxue.com
 */
 // fix 404 pages: 
@@ -56,5 +55,4 @@ header('HTTP/1.1 401 Unauthorized');
 header('WWW-Authenticate: Basic realm="Top Secret"'); 
 print 'Text that will be displayed if the user hits cancel or '; 
 print 'enters wrong login data'; 
-?>
 ?>
