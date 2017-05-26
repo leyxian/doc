@@ -19,6 +19,7 @@
     "bootstrap": "^3.3.7",
     "html5shiv": "^3.7.3",
     "respond": "^1.4.2",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "mui": "^0.9.16"
   }
 }
