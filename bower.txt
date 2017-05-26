@@ -2,7 +2,7 @@ npm install -g bower
 安装bower
 
 bower init
-初始化生成bower配置文件
+初始化生成bower配置文件 bower.json
 
 bower install JS插件名 --save --allow-root
 安装JS插件默认是当前目录bower_components文件夹
