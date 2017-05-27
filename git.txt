@@ -17,6 +17,7 @@ git add .
 git commit -am init
 9.添加远程仓库
 git remote add origin git@git.coding.net:coding帐号名/coding创建的项目名.git
+例：git@git.coding.net:newley1105/test.git
 10.推送到coding
 git push -u origin master
 
@@ -25,6 +26,7 @@ git push -u origin master
 2.到coding.net 帐号-SSH公钥 添加公钥
 3.下载项目
 git clone git@git.coding.net:coding帐号名/coding创建的项目名.git 文件夹名(不写则为项目名)
+例：git@git.coding.net:newley1105/test.git
 
 【密钥】
 ssh-keygen -t rsa -C "ah.liulei@foxmail.com"
