@@ -1,5 +1,33 @@
 ﻿git 使用大全
 
+下载：https://git-scm.com/download/win
+安装后在文件夹下右击 Git Bash Here
+
+https://coding.net
+1.创建项目
+2.在本机生成【密钥】
+3.将C:\Users\Administrator\.ssh\id_rsa.pub内容复制
+4.到coding.net帐号SSH公钥 添加公钥
+5.到本机需要同步的项目文件夹根目录
+6.初始化仓库
+git init
+7.添加跟踪文件
+git add .
+8.代码提交
+git commit -am init
+9.添加远程仓库
+git remote add origin git@git.coding.net:coding帐号名/coding创建的项目名.git
+例：git@git.coding.net:newley1105/test.git
+10.推送到coding
+git push -u origin master
+
+其他机子下载项目
+1.生成【密钥】
+2.到coding.net 帐号-SSH公钥 添加公钥
+3.下载项目
+git clone git@git.coding.net:coding帐号名/coding创建的项目名.git 文件夹名(不写则为项目名)
+例：git@git.coding.net:newley1105/test.git
+
 【密钥】
 ssh-keygen -t rsa -C "ah.liulei@foxmail.com"
 一直Enter
@@ -18,7 +46,7 @@ git init
 git add .
 将当前文件夹下所有文件加入git跟踪
 
-git commit -am 'init'
+git commit -am '修改备注'
 记录下已经修改的文件
 
 git push origin [远程仓库只有一个可不写,默认,后面命令同理]
@@ -29,6 +57,10 @@ git push -u origin master
 
 git push -f origin master
 强制覆盖推送到远程仓库
+
+git pull <远程主机名> <远程分支名>:<本地分支名>
+例：git pull origin master
+取回远程主机某个分支的更新，再与本地的指定分支合并
 
 git fetch 
 下载远程origin仓库日志
@@ -52,6 +84,8 @@ git rm -r --cache /cache/*
 
 【分支系统】
 git branch test
+【删除分支】
+git branch -D test
 git checkout test
 git push 本地分支:远程分支
 
@@ -70,12 +104,19 @@ git gc
 git fetch --all
 git reset --hard origin/master
 
+【文件日志】
+git log --pretty=oneline 文件路劲
+git show 日志编号
+
 【屏蔽文件】
 .gitignore
 使用通配符屏蔽不需要的文件或目录
 *.log   所有以.log为结尾的文件
 data/*  目录中结构中出现data,例：/data/*,/upload/data/*,……
 /data/* 根目录下data
+
+【清空文件】
+git clean  -d  -fx
 
 <!-- php -->
 .svn/
@@ -88,3 +129,9 @@ upload/
 *.log
 *.sql
 *.zip
+
+[hooks]
+vim post-update
+unset $(git rev-parse --local-env-vars)
+cd /data/www/ontransportjp.com
+git pull

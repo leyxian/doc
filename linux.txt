@@ -2,6 +2,8 @@ du -h --max-depth=1 /
 
 lsof | grep delete
 
+ps -ef | grep php
+
 kill -9 xxxx
 
 whereis httpd
@@ -19,6 +21,9 @@ yum clean headers
 yum clean packages
 
 yum clean oldheaders
+
+端口检测
+netstat -a | egrep 'Proto|LISTEN'
 
 cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c 
 
@@ -44,6 +49,9 @@ copytruncate
 dateext
 
 }
+
+mount /dev/xvdb1 /transimg
+
 rotate 31 表示保留31天的备份文件  
 daily 表示每天整理一次  
 copytruncate 表示先复制log文件的内容，然后再清空  
@@ -52,3 +60,10 @@ missingok 表示如果找不到log文件也没OK
 notifempty 表示如果log文件是空的，就不进行rotate  
 dateext 表示备份的日志文件后缀格式为YYYYMMDD
 可以通过/usr/sbin/logrotate -f /etc/logrotate.conf来执行
+
+## 后台运行命令
+nohup command {option} > myout.file 2>&1 &?
+
+## 开放端口
+netstat -tunlp
+
