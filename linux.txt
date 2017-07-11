@@ -67,3 +67,114 @@ nohup command {option} > myout.file 2>&1 &?
 ## 开放端口
 netstat -tunlp
 
+
+#!/bin/ksh
+#自动查杀超时或僵死的进程的脚本   V050930
+#四川省乐山市沙湾区邮政局 宋涛 
+#crontab -e  
+#0,5,10,15,20,25,30,40,45,50,55 * * * * /usr/bin/autokill.sh &  #设置为每5分钟检查一次超时进程
+#为了安全保险起见,此版脚本的清除范围为:由终端启动的,占用CUP时间超过指定时间长度的,非root用户的进程或僵尸进程  ^_^
+ 
+#检测参数
+killlog="/tmp/kill.log"    #默认自动清除超时进程或僵死进程的日志
+out=60                     # 默认的超时时间，以秒为单位，默认为60秒，范围为10秒--36000秒
+trap 'rm /tmp/kill.tmp 2>/dev/null' 0 1 2 3 9 15
+test $LOGNAME != root && { echo "Sorry ! 本 脚 本 只 能 由 root 操 作 !
+
+" ; exit 1 ; }
+test "$out" || { echo "
+  超时时限不能为空
+" ; exit 1 ; }
+test "$(echo $out | sed -n '/^[0-9][0-9]*$/p')" || { echo "
+  超时时限只能为整数值
+" ; exit 1 ; }
+test $out -ge 10 -a $out -le 36000 || { echo "
+  超时时限范围为10秒--36000秒
+" ; exit 1 ; }
+ 
+#查找超时或僵尸进程
+ps -efl |awk -v outtest=$out '{ outtime=timetest($14) }
+$2~/Z/ || ( $3!~/root/ && $13!~/?/ && outtime=="outtime" ) 
+{print $3,$4,$13,$2,$14,$15 }
+function timetest(ot)
+{
+hour=substr(ot,1,2)
+min=substr(ot,4,2)
+sec=substr(ot,7,8)
+if ( hour*3600+min*60+sec > outtest)
+return "outtime"
+else
+return "good" 
+} ' >/tmp/kill.tmp 2>/dev/null
+ 
+#保存清除列表
+if [ -s /tmp/kill.tmp ]
+then
+pass=0 
+error=0
+echo "
+清 除 时 间:  "$(date +%y/%m/%d-%H:%M:%S)"
+" >> $killlog
+awk 'BEGIN{printf("%-8s%-8s%-8s%-7s%-10s%-30s
+"),"用户名","进程号","终端号","状态","占用时间","任务名"} 
+{ state=statetest($4) ; printf("%-8s%-8s%-8s%-7s%-10s%-30s
+"),$1,$2,$3,state,$5,$6} END{print "
+"}
+function statetest(test)
+{  
+ if (test=="S") return "睡眠"
+ if (test=="R") return "运行"
+ if (test=="Z") return "僵尸"
+ if (test=="O") return "不存在"
+ if (test=="B") return "等待"
+ if (test=="T") return "停止"
+ if (test=="I") return "中间"
+}' /tmp/kill.tmp >> $killlog 2>/dev/null
+ 
+#清除进程
+for pid in $(awk '{print $2}' /tmp/kill.tmp |sort -rn) 
+do 
+kill -9 $pid  
+test $? -eq 0 && 
+{ echo "自动清除进程 $pid 成功" | awk '{printf("
+%-14s%-10s%-4s"),$1,$2,$3}' ; 
+echo "自动清除进程 $pid 成功"   | awk '{printf("%-14s%-10s%-4s
+"),$1,$2,$3}' 
+>> $killlog 2>/dev/null ;  pass=$((pass+1)) ; } || 
+{ echo "自动清除进程 $pid 失败" | awk '{printf("
+%-14s%-10s%-4s"),$1,$2,$3}' ; 
+echo "自动清除进程 $pid 失败"   | awk '{printf("%-14s%-10s%-4s
+"),$1,$2,$3}' 
+>> $killlog 2>/dev/null ; error=$((error+1)) ; }
+done
+ 
+#保存最终统计结果
+test $error -eq 0 && 
+{ echo "此次共清除 ${pass} 个进程成功" | awk '{printf("
+
+%-14s%-4s%-10s
+
+"),$1,$2,$3}'
+  echo "此次共清除 ${pass} 个进程成功" | awk '{printf("
+%-14s%-4s%-10s
+
+"),$1,$2,$3}' 
+>> $killlog 2>/dev/null ; } || 
+{ echo "此次共清除 ${pass} 个进程成功 ${error} 个进程失败" | 
+awk '{printf("
+
+%-14s%-4s%-16s%-10s%-10s
+
+"),$1,$2,$3,$4,$5}' ; 
+  echo "此次共清除 ${pass} 个进程成功 ${error} 个进程失败" | 
+awk '{printf("
+
+%-14s%-4s%-16s%-10s%-10s
+
+"),$1,$2,$3,$4,$5}' >> $killlog 2>/dev/null ; }
+fi
+
+iptables -L
+iptables -I INPUT -s 183.160.107.239 -p tcp --dport 3306 -j ACCEPT
+
+iptables -I INPUT -s 180.162.0.0/16 -p tcp --dport 3306 -j ACCEPT
