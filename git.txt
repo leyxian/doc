@@ -115,6 +115,9 @@ git show 日志编号
 data/*  目录中结构中出现data,例：/data/*,/upload/data/*,……
 /data/* 根目录下data
 
+【乱码路径】
+git config --global core.quotepath false
+
 【清空文件】
 git clean  -d  -fx
 
