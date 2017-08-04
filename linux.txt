@@ -22,7 +22,7 @@ yum clean packages
 
 yum clean oldheaders
 
-露脣驴脷录矛虏芒
+端口检测
 netstat -a | egrep 'Proto|LISTEN'
 
 cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c 
@@ -31,7 +31,7 @@ cat /proc/cpuinfo | grep physical | uniq -c
 
 cat /proc/meminfo 
 
-脠脮脰戮脟脨赂卯
+日志切割
 usr/local/tomcat/apache-tomcat-7.0.54/logs/catalina.out {
 
 	rotate 31
@@ -52,47 +52,47 @@ dateext
 
 mount /dev/xvdb1 /transimg
 
-rotate 31 卤铆脢戮卤拢脕么31脤矛碌脛卤赂路脻脦脛录镁  
-daily 卤铆脢戮脙驴脤矛脮没脌铆脪禄麓脦  
-copytruncate 卤铆脢戮脧脠赂麓脰脝log脦脛录镁碌脛脛脷脠脻拢卢脠禄潞贸脭脵脟氓驴脮  
-compress 卤铆脢戮脩鹿脣玫卤赂路脰脦脛录镁  
-missingok 卤铆脢戮脠莽鹿没脮脪虏禄碌陆log脦脛录镁脪虏脙禄OK  
-notifempty 卤铆脢戮脠莽鹿没log脦脛录镁脢脟驴脮碌脛拢卢戮脥虏禄陆酶脨脨rotate  
-dateext 卤铆脢戮卤赂路脻碌脛脠脮脰戮脦脛录镁潞贸脳潞赂帽脢陆脦陋YYYYMMDD
-驴脡脪脭脥篓鹿媒/usr/sbin/logrotate -f /etc/logrotate.conf脌麓脰麓脨脨
+rotate 31 表示保留31天的备份文件  
+daily 表示每天整理一次  
+copytruncate 表示先复制log文件的内容，然后再清空  
+compress 表示压缩备分文件  
+missingok 表示如果找不到log文件也没OK  
+notifempty 表示如果log文件是空的，就不进行rotate  
+dateext 表示备份的日志文件后缀格式为YYYYMMDD
+可以通过/usr/sbin/logrotate -f /etc/logrotate.conf来执行
 
-## 潞贸脤篓脭脣脨脨脙眉脕卯
+## 后台运行命令
 nohup command {option} > myout.file 2>&1 &?
 
-## 驴陋路脜露脣驴脷
+## 开放端口
 netstat -tunlp
 
 
 #!/bin/ksh
-#脳脭露炉虏茅脡卤鲁卢脢卤禄貌陆漏脣脌碌脛陆酶鲁脤碌脛陆脜卤戮   V050930
-#脣脛麓篓脢隆脌脰脡陆脢脨脡鲁脥氓脟酶脫脢脮镁戮脰 脣脦脤脦 
+#自动查杀超时或僵死的进程的脚本   V050930
+#四川省乐山市沙湾区邮政局 宋涛 
 #crontab -e  
-#0,5,10,15,20,25,30,40,45,50,55 * * * * /usr/bin/autokill.sh &  #脡猫脰脙脦陋脙驴5路脰脰脫录矛虏茅脪禄麓脦鲁卢脢卤陆酶鲁脤
-#脦陋脕脣掳虏脠芦卤拢脧脮脝冒录没,麓脣掳忙陆脜卤戮碌脛脟氓鲁媒路露脦搂脦陋:脫脡脰脮露脣脝么露炉碌脛,脮录脫脙CUP脢卤录盲鲁卢鹿媒脰赂露篓脢卤录盲鲁陇露脠碌脛,路脟root脫脙禄搂碌脛陆酶鲁脤禄貌陆漏脢卢陆酶鲁脤  ^_^
+#0,5,10,15,20,25,30,40,45,50,55 * * * * /usr/bin/autokill.sh &  #设置为每5分钟检查一次超时进程
+#为了安全保险起见,此版脚本的清除范围为:由终端启动的,占用CUP时间超过指定时间长度的,非root用户的进程或僵尸进程  ^_^
  
-#录矛虏芒虏脦脢媒
-killlog="/tmp/kill.log"    #脛卢脠脧脳脭露炉脟氓鲁媒鲁卢脢卤陆酶鲁脤禄貌陆漏脣脌陆酶鲁脤碌脛脠脮脰戮
-out=60                     # 脛卢脠脧碌脛鲁卢脢卤脢卤录盲拢卢脪脭脙毛脦陋碌楼脦禄拢卢脛卢脠脧脦陋60脙毛拢卢路露脦搂脦陋10脙毛--36000脙毛
+#检测参数
+killlog="/tmp/kill.log"    #默认自动清除超时进程或僵死进程的日志
+out=60                     # 默认的超时时间，以秒为单位，默认为60秒，范围为10秒--36000秒
 trap 'rm /tmp/kill.tmp 2>/dev/null' 0 1 2 3 9 15
-test $LOGNAME != root && { echo "Sorry ! 卤戮 陆脜 卤戮 脰禄 脛脺 脫脡 root 虏脵 脳梅 !
+test $LOGNAME != root && { echo "Sorry ! 本 脚 本 只 能 由 root 操 作 !
 
 " ; exit 1 ; }
 test "$out" || { echo "
-  鲁卢脢卤脢卤脧脼虏禄脛脺脦陋驴脮
+  超时时限不能为空
 " ; exit 1 ; }
 test "$(echo $out | sed -n '/^[0-9][0-9]*$/p')" || { echo "
-  鲁卢脢卤脢卤脧脼脰禄脛脺脦陋脮没脢媒脰碌
+  超时时限只能为整数值
 " ; exit 1 ; }
 test $out -ge 10 -a $out -le 36000 || { echo "
-  鲁卢脢卤脢卤脧脼路露脦搂脦陋10脙毛--36000脙毛
+  超时时限范围为10秒--36000秒
 " ; exit 1 ; }
  
-#虏茅脮脪鲁卢脢卤禄貌陆漏脢卢陆酶鲁脤
+#查找超时或僵尸进程
 ps -efl |awk -v outtest=$out '{ outtime=timetest($14) }
 $2~/Z/ || ( $3!~/root/ && $13!~/?/ && outtime=="outtime" ) 
 {print $3,$4,$13,$2,$14,$15 }
@@ -107,66 +107,66 @@ else
 return "good" 
 } ' >/tmp/kill.tmp 2>/dev/null
  
-#卤拢麓忙脟氓鲁媒脕脨卤铆
+#保存清除列表
 if [ -s /tmp/kill.tmp ]
 then
 pass=0 
 error=0
 echo "
-脟氓 鲁媒 脢卤 录盲:  "$(date +%y/%m/%d-%H:%M:%S)"
+清 除 时 间:  "$(date +%y/%m/%d-%H:%M:%S)"
 " >> $killlog
 awk 'BEGIN{printf("%-8s%-8s%-8s%-7s%-10s%-30s
-"),"脫脙禄搂脙没","陆酶鲁脤潞脜","脰脮露脣潞脜","脳麓脤卢","脮录脫脙脢卤录盲","脠脦脦帽脙没"} 
+"),"用户名","进程号","终端号","状态","占用时间","任务名"} 
 { state=statetest($4) ; printf("%-8s%-8s%-8s%-7s%-10s%-30s
 "),$1,$2,$3,state,$5,$6} END{print "
 "}
 function statetest(test)
 {  
- if (test=="S") return "脣炉脙脽"
- if (test=="R") return "脭脣脨脨"
- if (test=="Z") return "陆漏脢卢"
- if (test=="O") return "虏禄麓忙脭脷"
- if (test=="B") return "碌脠麓媒"
- if (test=="T") return "脥拢脰鹿"
- if (test=="I") return "脰脨录盲"
+ if (test=="S") return "睡眠"
+ if (test=="R") return "运行"
+ if (test=="Z") return "僵尸"
+ if (test=="O") return "不存在"
+ if (test=="B") return "等待"
+ if (test=="T") return "停止"
+ if (test=="I") return "中间"
 }' /tmp/kill.tmp >> $killlog 2>/dev/null
  
-#脟氓鲁媒陆酶鲁脤
+#清除进程
 for pid in $(awk '{print $2}' /tmp/kill.tmp |sort -rn) 
 do 
 kill -9 $pid  
 test $? -eq 0 && 
-{ echo "脳脭露炉脟氓鲁媒陆酶鲁脤 $pid 鲁脡鹿娄" | awk '{printf("
+{ echo "自动清除进程 $pid 成功" | awk '{printf("
 %-14s%-10s%-4s"),$1,$2,$3}' ; 
-echo "脳脭露炉脟氓鲁媒陆酶鲁脤 $pid 鲁脡鹿娄"   | awk '{printf("%-14s%-10s%-4s
+echo "自动清除进程 $pid 成功"   | awk '{printf("%-14s%-10s%-4s
 "),$1,$2,$3}' 
 >> $killlog 2>/dev/null ;  pass=$((pass+1)) ; } || 
-{ echo "脳脭露炉脟氓鲁媒陆酶鲁脤 $pid 脢搂掳脺" | awk '{printf("
+{ echo "自动清除进程 $pid 失败" | awk '{printf("
 %-14s%-10s%-4s"),$1,$2,$3}' ; 
-echo "脳脭露炉脟氓鲁媒陆酶鲁脤 $pid 脢搂掳脺"   | awk '{printf("%-14s%-10s%-4s
+echo "自动清除进程 $pid 失败"   | awk '{printf("%-14s%-10s%-4s
 "),$1,$2,$3}' 
 >> $killlog 2>/dev/null ; error=$((error+1)) ; }
 done
  
-#卤拢麓忙脳卯脰脮脥鲁录脝陆谩鹿没
+#保存最终统计结果
 test $error -eq 0 && 
-{ echo "麓脣麓脦鹿虏脟氓鲁媒 ${pass} 赂枚陆酶鲁脤鲁脡鹿娄" | awk '{printf("
+{ echo "此次共清除 ${pass} 个进程成功" | awk '{printf("
 
 %-14s%-4s%-10s
 
 "),$1,$2,$3}'
-  echo "麓脣麓脦鹿虏脟氓鲁媒 ${pass} 赂枚陆酶鲁脤鲁脡鹿娄" | awk '{printf("
+  echo "此次共清除 ${pass} 个进程成功" | awk '{printf("
 %-14s%-4s%-10s
 
 "),$1,$2,$3}' 
 >> $killlog 2>/dev/null ; } || 
-{ echo "麓脣麓脦鹿虏脟氓鲁媒 ${pass} 赂枚陆酶鲁脤鲁脡鹿娄 ${error} 赂枚陆酶鲁脤脢搂掳脺" | 
+{ echo "此次共清除 ${pass} 个进程成功 ${error} 个进程失败" | 
 awk '{printf("
 
 %-14s%-4s%-16s%-10s%-10s
 
 "),$1,$2,$3,$4,$5}' ; 
-  echo "麓脣麓脦鹿虏脟氓鲁媒 ${pass} 赂枚陆酶鲁脤鲁脡鹿娄 ${error} 赂枚陆酶鲁脤脢搂掳脺" | 
+  echo "此次共清除 ${pass} 个进程成功 ${error} 个进程失败" | 
 awk '{printf("
 
 %-14s%-4s%-16s%-10s%-10s
@@ -178,7 +178,6 @@ iptables -L
 iptables -I INPUT -s 183.160.107.239 -p tcp --dport 3306 -j ACCEPT
 
 iptables -I INPUT -s 180.162.0.0/16 -p tcp --dport 3306 -j ACCEPT
-
 
 ######script.sh
 #!/bin/sh
@@ -208,7 +207,7 @@ fi
 #!/bin/sh
 if [ $# -lt 1 ]
 then
-  echo "缂哄皯鍙傛暟"
+  echo "缺少参数"
   exit 1
 fi
  
