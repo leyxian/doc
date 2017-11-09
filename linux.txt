@@ -69,8 +69,6 @@ netstat -tunlp
 
 
 #!/bin/ksh
-#自动查杀超时或僵死的进程的脚本   V050930
-#四川省乐山市沙湾区邮政局 宋涛 
 #crontab -e  
 #0,5,10,15,20,25,30,40,45,50,55 * * * * /usr/bin/autokill.sh &  #设置为每5分钟检查一次超时进程
 #为了安全保险起见,此版脚本的清除范围为:由终端启动的,占用CUP时间超过指定时间长度的,非root用户的进程或僵尸进程  ^_^
@@ -179,6 +177,8 @@ iptables -I INPUT -s 183.160.107.239 -p tcp --dport 3306 -j ACCEPT
 
 iptables -I INPUT -s 180.162.0.0/16 -p tcp --dport 3306 -j ACCEPT
 
+iptables -I INPUT -s 36.7.0.0/16 -p tcp --dport 3306 -j ACCEPT
+
 ######script.sh
 #!/bin/sh
 MYSQL="mysql -h123.57.133.51 -uley -pzq1988 --default-character-set=utf8 -A -N"
@@ -217,3 +217,15 @@ do
   echo "Kill the $1 process [ $i ]"
   kill -9 $i
 done
+
+
+chattr +i /网站目录/.user.ini
+
+//字体
+centos
+yum install bitmap-fonts bitmap-fonts-cjk
+ubuntn
+sudo apt-get install xfonts-wqy
+
+//nodejs
+yum install epel-release

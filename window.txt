@@ -1,0 +1,3 @@
+管理员运行CMD
+删除休眠文件
+powercfg -h off

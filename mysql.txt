@@ -57,3 +57,5 @@ rm -f $delname
 
 ####
 SELECT username,oid FROM tao86_order WHERE oid IN (473400,471658) ORDER BY INSTR(',473400,471658,',CONCAT(',',oid,','))
+
+mysqlbinlog --start-date="2017-08-10 09:00:00" --stop-date="2017-08-10 09:30:00" mysql-bin.000016 > binlog16.txt

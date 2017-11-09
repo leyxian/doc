@@ -1,0 +1,288 @@
+Plugin.Web.Bind ("WQM.exe")
+Call Plugin.Web.SetSize(1024,768)
+Delay 200
+Dim k
+Dim r
+Rem start
+k = 0
+//Call GetHtml("2016021520004001110034001413456", 12)
+//Delay 100000
+While k <= 50
+    conn = Plugin.Super_MySQL.mysql_connect("123.57.133.51", "jishubu", "jsb!@#$", "db_zy", "3306")
+    If conn = 0 Then 
+        Call Plugin.Web.Tips("数据库连接失败")
+    Else 
+        Call Plugin.Web.Tips("数据库连接成功")
+        Delay 200
+        res = Plugin.Super_MySQL.mysql_select(conn,"tao86_pay","*","is_confirm=1 AND state=0","id ASC")
+//      If res = 0 Then 
+//          Call Plugin.Web.Tips("没有纪录")    
+//      Else 
+            Call Plugin.Web.Tips("查询记录")
+            num = Plugin.Super_MySQL.num_rows(res)
+//          If num > 0 Then 
+//              For num
+                    payno = Plugin.Super_MySQL.fetch_text(res, "payno")
+                    money = Plugin.Super_MySQL.fetch_text(res, "money")
+                    id = Plugin.Super_MySQL.fetch_text(res,"id")
+                    Call Plugin.Super_MySQL.row_next(res)
+                    r = GetHtml2("10989", 4871)
+                    Call Plugin.Web.Tips(r)
+//                  If r = 1 Then 
+//                      Call Plugin.Web.Tips("交易成功")
+//                      Call Plugin.Super_MySQL.update(conn, "tao86_pay", "is_confirm=2", "id="&id)
+//                  ElseIf r > 0 Then
+//                      Call Plugin.Web.Tips("更新金额")
+//                      Call Plugin.Super_MySQL.update(conn, "tao86_pay", "money="&r, "id="&id)
+//                  ElseIf r = -1 Then
+//                      Call Plugin.Super_MySQL.update(conn, "tao86_pay", "state=2", "id="&id)
+//                      Call Plugin.Web.Tips("无交易记录")
+//                  Else
+//                      Call Plugin.Web.Tips("无匹配结果")
+//                  End If
+                    Delay 200
+//              Next
+//          Else 
+                url="https://consumeprod.alipay.com/record/advanced.htm"
+                Call Plugin.Web.Go(url)
+                Call LoadPage()
+                logintxt = Plugin.Web.GetTitle()
+                Call LoginHtml(logintxt)
+//          End If
+            Call Plugin.Super_MySQL.free_result(res)    //释放记录集
+    //      Call Plugin.Web.Tips("循环结束")
+//      End If
+        Call Plugin.Super_MySQL.mysql_close(conn)
+    End If
+    k=k+1
+    Delay 13000
+Wend
+Hwmd = Plugin.Window.Search("WQM")
+Hwmd = Split(Hwmd, "|")(0)
+Call Plugin.Window.CloseEx(Hwmd)
+//Call Plugin.Web.Tips("重启脚本")
+Delay 1000
+ProcessID = Plugin.Web.Bind("WQM.exe")
+Delay 2000
+Goto start
+//RestartScript
+    
+
+    
+//Goto 数据库数据
+
+Sub LoadPage()
+    t=0
+    Do
+        Delay 100
+        If "complete" = Plugin.Web.RunJS(1,"return document.readyState") Then
+            Exit Do
+        ElseIf t >= 5000 Then
+            Exit Do
+        End If
+        t=t+100
+        Delay 100
+    Loop    
+End Sub
+
+Function LoginHtml(txt)
+    If txt = "登录 - 支付宝" Then 
+        Call Plugin.Web.Tips("登录")
+        Call Plugin.Web.HtmlClick("tag:INPUT&name:logonId")
+        Call Plugin.Web.HtmlInput("15339699513", "tag:INPUT&name:logonId")
+//      Call Plugin.Web.HtmlInput("18656086257", "tag:INPUT&name:logonId")
+//      Call Plugin.Web.HtmlClick("id:password_rsainput")
+        Call Plugin.Web.HtmlClick("id:password_rsainput")
+        Call Plugin.Web.HtmlInput("623863rzw", "id:password_rsainput")
+//      Call Plugin.Web.HtmlInput("haifenbao122", "id:password_rsainput")
+        Dim MyArray
+        Hwmd = Plugin.Window.Search("WQM")
+        Hwmd = Split(Hwmd, "|")(0)
+        sRect = Plugin.Window.GetClientRect(Hwmd)
+        Call Plugin.Web.Tips("rect"+sRect)
+        MyArray = Split(sRect, "|")
+        x = Clng(MyArray(0)) : y = Clng(MyArray(1))
+        Call MoveTo(715 + x, 395 + y)
+        LeftClick 1
+//      Call Plugin.Web.KeyPress(72)
+//      Call Plugin.Web.KeyPress(65)
+//      Call Plugin.Web.KeyPress(73)
+//      Call Plugin.Web.KeyPress(70)
+//      Call Plugin.Web.KeyPress(69)
+//      Call Plugin.Web.KeyPress(78)
+//      Call Plugin.Web.KeyPress(66)
+//      Call Plugin.Web.KeyPress(65)
+//      Call Plugin.Web.KeyPress(79)
+//      Call Plugin.Web.KeyPress(49)
+//      Call Plugin.Web.KeyPress(50)
+//      Call Plugin.Web.KeyPress(50)
+//      Delay 500
+//      Call Plugin.Web.HtmlClick("id:J-login-btn")
+//      Call Plugin.Web.RunJS(0, "document.getElementById('J-login-btn').click()")
+        KeyPress 13,1
+        Call LoadPage()
+        Delay 1500
+        LoginHtml = 1
+    Else 
+        LoginHtml = 0
+    End If
+End Function
+
+Function GetHtml(payno, money)
+    length = Len(payno)
+    If length=32 Then 
+        url = "https://shenghuo.alipay.com/send/queryTransferDetail.htm?tradeNo=" & payno   
+    Else 
+        url="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo="&payno
+    End If
+    Call Plugin.Web.Go(url)
+    Call LoadPage()
+    logintxt =Plugin.Web.GetTitle()
+    If LoginHtml(logintxt) = 1 Then 
+        Delay 3000
+        Call Plugin.Web.Go(url)
+        Call LoadPage()
+    End If
+    result1 = Trim(Plugin.Web.HtmlGet("text", "tag:H3&index:8"))
+    result2 = Trim(Plugin.Web.HtmlGet("text", "tag:H3&index:0"))
+    result3 = Trim(Plugin.Web.HtmlGet("text", "tag:H3&index:2"))
+    If result1 = "交易成功" OR result2 = "交易成功" OR result3 = "交易成功" Then 
+        If length = 32 Then 
+            amount = CSng(Replace(Plugin.Web.HtmlGet("text", "tag:TD&index:4"), "=",""))
+        Else 
+            amount = CSng(Replace(Plugin.Web.HtmlGet("text", "tag:TD&index:6"), "=",""))
+        End If
+        money = CSng(money)
+        If amount = money Then 
+            GetHtml = 1
+        Else
+            GetHtml = amount
+        End If
+    ElseIf InStr(result1, "查询交易详情") OR InStr(result2, "查询交易详情") Then
+        GetHtml = -1 
+    Else 
+        GetHtml = 0
+    End If
+End Function
+
+Function GetHtml2(payno, money)
+    url = "https://consumeprod.alipay.com/record/advanced.htm?keyword=generalInfo&keyValue=" & payno & "&minAmount=" & money & "&maxAmount=" & money
+    Call Plugin.Web.Go(url)
+    Call LoadPage()
+    logintxt =Plugin.Web.GetTitle()
+    If LoginHtml(logintxt) = 1 Then 
+        Delay 3000
+        Call Plugin.Web.Go(url)
+        Call LoadPage()
+    ElseIf logintxt = "亲，访问受限了" Then
+        Dim MyArray
+        Hwmd = Plugin.Window.Search("WQM")
+        Hwmd = Split(Hwmd, "|")(0)
+        sRect = Plugin.Window.GetClientRect(Hwmd)
+        MyArray = Split(sRect, "|")
+        x = Clng(MyArray(0)) : y = Clng(MyArray(1))
+        Call MoveTo(535 + x, 405 + y)
+        LeftDown 1
+        Delay 500
+        Call MoveTo(800 + x, 405 + y)
+        Delay 1000
+        LeftUp 1
+    End If
+    Dim html
+    Delay 1500
+    html = Trim(Plugin.Web.HtmlGet("outerHtml", "tag:tr&id:J-item-1"))
+    Call Plugin.Web.Tips("html" + html)
+    Dim RegEx, Matches
+    Set RegEx = New RegExp
+    RegEx.Pattern = "\:(\d{28,32})[\s\S]*?amount-pay[^\d]+([\d\.]+)"
+    RegEx.[Global] = true
+    RegEx.IgnoreCase = false
+    Set Matches = RegEx.Execute(html)
+    GetHtml2 = "数据："
+    For Each match In Matches
+        GetHtml2 = GetHtml2 + match.submatches(0) + match.submatches(1) + match.submatches(2)
+    Next
+    Delay 1500
+    Call Plugin.Web.Tips(GetHtml2)
+    Delay 2000
+End Function
+
+
+Plugin.Web.Bind("WQM.exe")
+Delay 200
+Dim k
+Dim r
+k = 0
+
+path = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+If Plugin.chrome.launch(path, "--user-data-dir=c:\user_data") = False Then 
+TracePrint "启动失败"
+ExitScript
+End If
+id = Plugin.chrome.get_ids()
+If id = "" Then 
+TracePrint "获取标签id失败"
+ExitScript
+End If
+
+Rem start
+While k <= 50
+    Call Plugin.chrome.load(id, "https://trade.taobao.com/trade/itemlist/list_sold_items.htm?action=itemlist/SoldQueryAction&event_submit_do_query=1&auctionStatus=SEND&tabCode=haveSendGoods")
+    Do
+    Delay 2000
+    Loop While Plugin.chrome.is_loading(id)
+    
+    str = Plugin.chrome.exec_js(id, "document.querySelector('title').innerText;")
+    TracePrint str
+    
+    If InStr(str, "我喜欢") Then 
+        Call Plugin.chrome.exec_js(id, "document.querySelector('#J_Quick2Static').click();")
+        Call Plugin.chrome.exec_js(id, "document.querySelector('#TPL_username_1').value='曙光冰释';")
+        Call Plugin.chrome.exec_js(id, "document.querySelector('#TPL_password_1').value='870231wo';")
+        Call Plugin.chrome.exec_js(id, "document.querySelector('#J_SubmitStatic').click();")
+//      Do
+        Delay 2000
+//      Loop While Plugin.chrome.is_loading(id)
+    End If
+    
+    str2 = Plugin.chrome.exec_js(id, "document.querySelector('title').innerText;")
+    TracePrint str2
+    
+    If InStr(str2, "已卖出的宝贝") Then 
+        html = Plugin.chrome.exec_js(id, "document.querySelector('div[data-reactid=\\.0\\.5]').innerText")
+        rows_len = CInt(Plugin.chrome.exec_js(id, "document.querySelectorAll('span[data-reactid*=\\$6\\.0\\.0\\.2\\.0\\.1]').length"))
+        For i = 0 To rows_len - 1
+            TracePrint i
+            price = price + cLng(Plugin.chrome.exec_js(id, "document.querySelectorAll('span[data-reactid*=\\$6\\.0\\.0\\.2\\.0\\.1]')[" & i & "].innerText"))
+            TracePrint price
+        Next
+    End If
+    
+    If price > 0 Then 
+        buf = "price="&price
+        Set http = CreateObject("Msxml2.ServerXMLHTTP")
+        http.open "POST", "http://www.transportjp.com/script.php?action=uptb", False
+        http.setRequestHeader "Accept", _
+        "application/x-shockwave-flash, " & _ 
+        "image/gif, image/jpeg, image/pjpeg, " & _
+        "application/x-ms-application, " & _ 
+        "application/x-ms-xbap, " & _ 
+        "application/vnd.ms-xpsdocument, " & _ 
+        "application/xaml+xml, */*"
+        '表示我们所用的浏览器能接受的Content-type
+        http.setRequestHeader "Referer", "http://www.transportjp.com "'当前页面是从那个页面链接来的
+        http.setRequestHeader "Accept-Language", "zh-cn" '语言设置
+        http.setRequestHeader "Content-Type", "application/x-www-form-urlencoded" '表示客户端提交给服务器文本内容的编码方式 
+        'http.setRequestHeader "Accept-Encoding", "gzip, deflate"
+        http.setRequestHeader "Host", "www.transportjp.com" '所请求的主机
+        http.setRequestHeader "Content-Length", Len(buf) '表示提交的数据字节大小
+        http.setRequestHeader "Connection", "Keep-Alive" '数据传递完并不立即关闭连接
+        http.setRequestHeader "Cache-Control", "no-cache" '返回消息中的Cache用于指定网页缓存
+        http.Send buf
+        TracePrint buf & "发送成功"
+    End If
+        
+    k=k+1
+    Delay 3600000
+Wend
+Goto start
