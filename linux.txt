@@ -218,6 +218,8 @@ do
   kill -9 $i
 done
 
+ps -ef|grep $1|grep -v grep|awk '{print $2}'|xargs kill -9
+
 
 chattr +i /ÍøÕ¾Ä¿Â¼/.user.ini
 

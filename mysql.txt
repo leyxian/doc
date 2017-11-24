@@ -58,4 +58,17 @@ rm -f $delname
 ####
 SELECT username,oid FROM tao86_order WHERE oid IN (473400,471658) ORDER BY INSTR(',473400,471658,',CONCAT(',',oid,','))
 
+SET @sum = 0;SELECT max(id),SUM(num) FROM (SELECT id,num,@sum:=@sum+num mysum FROM tao86_jpsales ORDER BY id ASC) t WHERE mysum<=10
+
 mysqlbinlog --start-date="2017-08-10 09:00:00" --stop-date="2017-08-10 09:30:00" mysql-bin.000016 > binlog16.txt
+
+
+SELECT 
+    o.id,o.tdate,o.goodcode,o.outnum,o.salePrice
+    ,costprice=CAST(SUM((CASE WHEN i.SumInNum>o.Sumoutnum THEN o.Sumoutnum ELSE i.SumInNum END -CASE WHEN o.Sumoutnum-o.OutNum>i.SumInNum-i.InNum THEN o.Sumoutnum-o.OutNum ELSE i.SumInNum-i.InNum END)*i.Price)/o.outnum AS MONEY)
+    ,costmoney=CAST(SUM((CASE WHEN i.SumInNum>o.Sumoutnum THEN o.Sumoutnum ELSE i.SumInNum END -CASE WHEN o.Sumoutnum-o.OutNum>i.SumInNum-i.InNum THEN o.Sumoutnum-o.OutNum ELSE i.SumInNum-i.InNum END)*i.Price) AS MONEY)
+FROM 
+(SELECT *,SumInNum=(SELECT SUM(InNum) FROM #in WHERE goodcode=i.goodcode AND id<=i.id) FROM #in AS i) AS i,
+(SELECT *,Sumoutnum=(SELECT SUM(outnum) FROM #out WHERE goodcode=i.goodcode AND id<=i.id) FROM #out AS i) AS o
+WHERE i.goodcode=o.goodcode AND i.SumInNum-i.InNum<o.Sumoutnum AND o.Sumoutnum-o.OutNum<i.SumInNum
+GROUP BY o.id,o.tdate,o.goodcode,o.outnum,o.salePrice
