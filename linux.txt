@@ -31,6 +31,10 @@ cat /proc/cpuinfo | grep physical | uniq -c
 
 cat /proc/meminfo 
 
+cat /proc/version
+
+uname -a
+
 日志切割
 usr/local/tomcat/apache-tomcat-7.0.54/logs/catalina.out {
 
@@ -231,3 +235,24 @@ sudo apt-get install xfonts-wqy
 
 //nodejs
 yum install epel-release
+
+
+// ssl 证书
+
+// 生成服务器端私钥
+命令：openssl genrsa -out server.key 1024
+// 生成服务器端公钥
+命令：openssl rsa -in server.key -pubout -out server.pem
+
+// 生成 CA 私钥
+命令：openssl genrsa -out ca.key 1024
+命令：openssl req -new -key ca.key -out ca.csr
+命令：openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
+
+// 服务器端需要向 CA 机构申请签名证书，在申请签名证书之前依然是创建自己的 CSR 文件
+命令：openssl req -new -key server.key -out server.csr
+// 向自己的 CA 机构申请证书，签名过程需要 CA 的证书和私钥参与，最终颁发一个带有 CA 签名的证书
+命令：openssl x509 -req -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt
+
+//使用openssl 进行转换
+命令：openssl x509 -in server.crt -out server.cer -outform der
