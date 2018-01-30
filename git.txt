@@ -10,7 +10,7 @@ https://coding.net
 4.到coding.net帐号SSH公钥 添加公钥
 5.到本机需要同步的项目文件夹根目录
 6.初始化仓库
-git init
+git init --bare
 7.添加跟踪文件
 git add .
 8.代码提交

@@ -72,3 +72,6 @@ FROM 
 (SELECT *,Sumoutnum=(SELECT SUM(outnum) FROM #out WHERE goodcode=i.goodcode AND id<=i.id) FROM #out AS i) AS o
 WHERE i.goodcode=o.goodcode AND i.SumInNum-i.InNum<o.Sumoutnum AND o.Sumoutnum-o.OutNum<i.SumInNum
 GROUP BY o.id,o.tdate,o.goodcode,o.outnum,o.salePrice
+
+###################123456####################
+mysqlbinlog --no-defaults --start-datetime="2016-11-17 00:00:00" --stop-datetime="2016-11-19 23:59:59" ./mysql-bin.000011 --result-file=mysql-bin.000011.sql
