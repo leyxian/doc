@@ -1,0 +1,15 @@
+{
+  "name": "转账审核",
+  "manifest_version": 2,
+  "version": "1.0",
+  "description": "日转网支付宝转账自动审核脚本",
+  "browser_action": {
+    "default_icon": "favicon.ico"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.alipay.com/*"],
+      "js": ["alipay2.js"]
+    }
+  ]
+}
