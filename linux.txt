@@ -261,6 +261,7 @@ yum install epel-release
 
 
 //阿里云磁盘扩容
+//https://help.aliyun.com/document_detail/25452.html?spm=5176.11065259.1996646101.searchclickresult.1db338f2uDGalg
 
 重启服务器后
 
@@ -286,3 +287,7 @@ e2fsck -f /dev/xvdb # 检查文件系统
 resize2fs /dev/xvdb # 变更文件系统大小
 
 mount /dev/xvdb /transimg
+
+
+##解压
+tar -jxvf xx.tar.bz2

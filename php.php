@@ -170,4 +170,8 @@ $zipfile = ROOT_PATH.'/data/tmp.zip';
     }else{
       die('文件压缩创建失败');
     }
+
+// 周日期
+$fstime = mktime(0,0,0,date('m', $etime), date('d', $etime)-date('w', $etime)+1-$i*7, date('Y', $etime)); 
+$fetime = mktime(23,59,59,date('m', $etime), date('d', $etime)-date('w', $etime)+7-$i*7, date('Y', $etime));
 ?>
