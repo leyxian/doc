@@ -73,36 +73,11 @@ function autoscript(){
                         xmlhttp.send("APPKEY=android&APPSECRET=2793003ce8104768fe5f562922e5be9c&id=" + row.id + "&res=" + payno + "|" + title + "|" + money)
                         console.log("res：" + xmlhttp.responseText)
                     }else{
-                        // if(document.querySelector('#J-keyword') && document.querySelector('#J-keyword').value==''){
-                        //     console.log("查询："+row.title)
-                        //     if(document.createEvent){
-                        //         var evObj = document.createEvent('MouseEvents')
-                        //         evObj.initEvent('mousedown', true, false)
-                        //         document.querySelector('#supper').dispatchEvent(evObj)
-                        //         document.querySelector('#supper').click()
-                        //         document.querySelector('#J-keyword').dispatchEvent(evObj)
-                        //         document.querySelector('#J-keyword').focus()  
-                        //         document.querySelector('#J-keyword').value=row.title
-                        //         document.querySelector('input[value="筛 选"]').dispatchEvent(evObj)
-                        //     }else if(document.createEventObject){
-                        //         document.querySelector('#supper').fireEvent('mousedown')
-                        //         document.querySelector('#supper').click()
-                        //         document.querySelector('#J-keyword').fireEvent('mousedown')
-                        //         document.querySelector('#J-keyword').focus()
-                        //         document.querySelector('#J-keyword').value=row.title
-                        //         document.querySelector('input[value="筛 选"]').fireEvent("mousedown")
-                        //     }
-                        // }else{
-                        //     if(document.querySelector('div.tip-angle-content span') && document.querySelector('div.tip-angle-content span').innerHTML=="没有符合条件的记录。"){
-                                console.log("失败：" + "id=" + row.id + "title=" + row.title + "&res=-1")
-                                xmlhttp.open("POST", requrl + "/api/pay.php?action=topays", false)
-                                xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;")
-                                xmlhttp.send("APPKEY=android&APPSECRET=2793003ce8104768fe5f562922e5be9c&id=" + row.id + "&res=-1")
-                                console.log("res：" + xmlhttp.responseText)
-                            // }else{
-                            //     console.log('数据不匹配:'+row.payno+'|'+row.title+'|'+row.money)
-                            // }
-                        // }
+                        console.log("失败：" + "id=" + row.id + "title=" + row.title + "&res=-1")
+                        xmlhttp.open("POST", requrl + "/api/pay.php?action=topays", false)
+                        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;")
+                        xmlhttp.send("APPKEY=android&APPSECRET=2793003ce8104768fe5f562922e5be9c&id=" + row.id + "&res=-1")
+                        console.log("res：" + xmlhttp.responseText)
                     }
                 }else if(document.title=='支付宝 - 网上支付 安全快速！' && document.querySelector('div.notice.n-error-m h3') && document.querySelector('div.notice.n-error-m h3').innerHTML.trim()=="查询交易详情失败。"){
                     console.log("失败：" + "id=" + row.id + "payno=" + row.payno + "&res=-1")

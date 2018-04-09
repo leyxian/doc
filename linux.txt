@@ -267,6 +267,8 @@ yum install epel-release
 
 umount /dev/xvdb
 
+fdisk -l 罗列分区信息并记录扩容前数据盘的最终容量、起始扇区（First sector）位置
+
 fdisk /dev/xvdb
 
 d 并按回车键，删除原来的分区
@@ -291,3 +293,5 @@ mount /dev/xvdb /transimg
 
 ##解压
 tar -jxvf xx.tar.bz2
+
+memcached -d -p 11211 -u memcached -m 64 -c 1024 -P -U 0 /var/run/memcached/memcached.pid -U 0

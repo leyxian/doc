@@ -174,4 +174,9 @@ $zipfile = ROOT_PATH.'/data/tmp.zip';
 // 周日期
 $fstime = mktime(0,0,0,date('m', $etime), date('d', $etime)-date('w', $etime)+1-$i*7, date('Y', $etime)); 
 $fetime = mktime(23,59,59,date('m', $etime), date('d', $etime)-date('w', $etime)+7-$i*7, date('Y', $etime));
+
+//月份
+$sdate = date('Y-m-d H:i:s');
+$nextMonth = date('Y-m', strtotime('last day of +'.$num.' month', strtotime($sdate)));
+$edate = date('d', strtotime($sdate)) > date('t', strtotime($nextMonth)) ?  date('Y-m-t h:i:s', strtotime('last day of +'.$num.' month', strtotime($sdate))) : date('Y-m-d H:i:s', strtotime('+'.$num.' month', strtotime($sdate)));
 ?>
