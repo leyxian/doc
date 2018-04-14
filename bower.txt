@@ -9,3 +9,9 @@ bower install JS插件名 --save --allow-root
 
 cnpm
 npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+指定文件位置
+.bowerrc
+{
+    "directory": "Static/public"
+}

@@ -66,7 +66,7 @@ if($_FILES['file']){
 
     //cvs
     header( 'Content-Type: text/csv' );
-    header( 'Content-Disposition: attachment;filename=淘宝支付流水账'.date('YmdHis').'.csv');
+    header( 'Content-Disposition: attachment;filename=集装箱数据'.date('YmdHis').'.csv');
     $fp = fopen('php://output', 'w');
     fputcsv($fp, array('对方支付宝账号', '真实姓名', '交易流水号', '交易时间', '交易金额', '收支类型', '收支名称', '备注'));
     foreach ($rows as $v) {
@@ -139,4 +139,44 @@ if(curl_errno($ch)){
 }
 curl_close($ch);
 preg_match_all('/<td>([\d\.]+)<\/td>[^<]+<td>(\d+)</', $contents, $matches);
+
+$zipfile = ROOT_PATH.'/data/tmp.zip';
+    if(file_exists($zipfile)) unlink($zipfile);
+    $zip = new ZipArchive();
+    if ($zip->open($zipfile, ZipArchive::CREATE)===TRUE) {
+      foreach ($dataarray as $v) {
+        $v['cardf'] = trim($v['cardf']);
+        if(file_exists($v['cardf'])) {
+          $zip->addFile($v['cardf']);
+        }
+      }
+      $zip->close();
+    }else{
+      die('ZIP文件创建失败');
+    }
+    if(file_exists($zipfile)){
+      header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename='.basename($zipfile));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($zipfile));
+        ob_clean();
+        flush();
+        readfile($zipfile);
+        exit;
+    }else{
+      die('文件压缩创建失败');
+    }
+
+// 周日期
+$fstime = mktime(0,0,0,date('m', $etime), date('d', $etime)-date('w', $etime)+1-$i*7, date('Y', $etime)); 
+$fetime = mktime(23,59,59,date('m', $etime), date('d', $etime)-date('w', $etime)+7-$i*7, date('Y', $etime));
+
+//月份
+$sdate = date('Y-m-d H:i:s');
+$nextMonth = date('Y-m', strtotime('last day of +'.$num.' month', strtotime($sdate)));
+$edate = date('d', strtotime($sdate)) > date('t', strtotime($nextMonth)) ?  date('Y-m-t h:i:s', strtotime('last day of +'.$num.' month', strtotime($sdate))) : date('Y-m-d H:i:s', strtotime('+'.$num.' month', strtotime($sdate)));
 ?>

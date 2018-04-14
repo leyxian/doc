@@ -10,7 +10,7 @@ https://coding.net
 4.到coding.net帐号SSH公钥 添加公钥
 5.到本机需要同步的项目文件夹根目录
 6.初始化仓库
-git init
+git init --bare
 7.添加跟踪文件
 git add .
 8.代码提交
@@ -114,6 +114,9 @@ git show 日志编号
 *.log   所有以.log为结尾的文件
 data/*  目录中结构中出现data,例：/data/*,/upload/data/*,……
 /data/* 根目录下data
+
+【乱码路径】
+git config --global core.quotepath false
 
 【清空文件】
 git clean  -d  -fx
