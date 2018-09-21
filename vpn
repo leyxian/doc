@@ -1,0 +1,97 @@
+# VPN Client 接続設定ファイル
+# 
+# このファイルは VPN クライアント接続マネージャによってエクスポートされたものです。
+# このファイルの内容はテキストエディタで編集することができます。
+# 
+# このファイルをクライアント接続マネージャにインポートすると、すぐに使用する
+# ことができます。
+
+declare root
+{
+ bool CheckServerCert false
+ bool StartupAccount false
+
+ declare ClientAuth
+ {
+  uint AuthType 0
+  string Username guest
+ }
+ declare ClientOption
+ {
+  string AccountName MobileFree.jp
+  uint AdditionalConnectionInterval 1
+  uint ConnectionDisconnectSpan 30
+  string DeviceName DHCP
+  bool DisableQoS false
+  bool HalfConnection true
+  bool HideStatusWindow false
+  string Hostname vpn.mobilefree.jp
+  string HubName GUEST
+  uint MaxConnection 6
+  bool NoRoutingTracking false
+  uint NumRetry 4294967295
+  uint Port 443
+  uint PortUDP 0
+  string ProxyName $
+  byte ProxyPassword $
+  uint ProxyPort 0
+  uint ProxyType 0
+  string ProxyUsername $
+  bool RequireBridgeRoutingMode false
+  bool RequireMonitorMode false
+  uint RetryInterval 15
+  bool UseCompress false
+  bool UseEncrypt true
+ }
+}
+
+# MobileFree.jp.vpn
+
+# VPN Client Connection File
+# 
+# This file was exported by the VPN Client Connection Manager.
+# The contents of this file can be edited with a text editor.
+# 
+# If you import this file into the VPN Client Connection Manager, 
+# you can instantly setup a connection.
+
+declare root
+{
+ bool CheckServerCert false
+ bool StartupAccount false
+
+ declare ClientAuth
+ {
+  uint AuthType 0
+  string Username public
+ }
+ declare ClientOption
+ {
+  string AccountName Secure Internet Connection
+  uint AdditionalConnectionInterval 1
+  uint ConnectionDisconnectSpan 0
+  string DeviceName DHCP
+  bool DisableQoS false
+  bool HalfConnection false
+  bool HideStatusWindow false
+  string Hostname public.softether.com
+  string HubName PUBLIC
+  uint MaxConnection 1
+  bool NoRoutingTracking false
+  uint NumRetry 4294967295
+  uint Port 443
+  uint PortUDP 0
+  string ProxyName $
+  byte ProxyPassword $
+  uint ProxyPort 0
+  uint ProxyType 0
+  string ProxyUsername $
+  bool RequireBridgeRoutingMode false
+  bool RequireMonitorMode false
+  uint RetryInterval 15
+  bool UseCompress false
+  bool UseEncrypt true
+ }
+}
+
+# secure.vpn

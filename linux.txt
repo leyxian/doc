@@ -24,6 +24,9 @@ yum clean packages
 
 yum clean oldheaders
 
+网络
+mtr vpngate.net
+
 端口检测
 netstat -a | egrep 'Proto|LISTEN'
 
@@ -185,6 +188,14 @@ iptables -I INPUT -s 180.162.0.0/16 -p tcp --dport 3306 -j ACCEPT
 
 iptables -I INPUT -s 36.7.0.0/16 -p tcp --dport 3306 -j ACCEPT
 
+//####备份同步
+yum install xtrabackup
+
+innobackupex --user=root --password=MJsujrctG6pU0OUG --defaults-file=/etc/my.cnf /transimg/back --include=wushi --no-timestamp
+
+--include=navy
+--databases=navy
+
 ######script.sh
 #!/bin/sh
 MYSQL="mysql -h123.57.133.51 -uley -pzq1988 --default-character-set=utf8 -A -N"
@@ -293,8 +304,16 @@ mount /dev/xvdb /transimg
 
 ##解压
 tar -jxvf xx.tar.bz2
+tar zxvf pythontab.tar.gz
 
 memcached -d -p 11211 -u memcached -m 64 -c 1024 -P -U 0 /var/run/memcached/memcached.pid -U 0
+memcached -d -m 1024 -u root -l 127.0.0.1 -p 11211 -c 1024 -P /tmp/memcached.pid
 
 ###删除指定日期文件
 find /path -mtime +30 -type f -name \*.zip -exec rm -f {} \;
+
+###流量查看
+iftop -i eth1 -P
+
+
+rsync -avz --delete --exclude Application/Runtime/ userid@172.16.7.158::mokuai /var/www/html/rigouwang/ --password-file=/etc/rsyncd.pwd

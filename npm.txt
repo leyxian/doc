@@ -1,3 +1,5 @@
 npm install ***
 
+cnpm i --buy=npm --no-bin-links
+
 安装JS插件默认是当前目录node_modules文件夹

@@ -82,8 +82,9 @@ if($_FILES['file']){
       require(INC_PATH.'/PHPExcel/Classes/PHPExcel.php');
       require(INC_PATH.'/PHPExcel/Classes/PHPExcel/IOFactory.php');
       require(INC_PATH.'/PHPExcel/Classes/PHPExcel/Reader/Excel5.php');
-      $objReader = PHPExcel_IOFactory::createReader('Excel5');
-      $objPHPExcel = $objReader->load($_FILES['file']['tmp_name']);
+      // $objReader = PHPExcel_IOFactory::createReader('Excel5');
+      $objPHPExcel = PHPExcel_IOFactory::load($_FILES['ifile']['tmp_name']);
+      // $objPHPExcel = $objReader->load($_FILES['file']['tmp_name']);
       $objWorksheet = $objPHPExcel->getActiveSheet();
       $highestRow = $objWorksheet->getHighestRow(); 
       $highestColumn = $objWorksheet->getHighestColumn();
@@ -179,4 +180,7 @@ $fetime = mktime(23,59,59,date('m', $etime), date('d', $etime)-date('w', $etime)
 $sdate = date('Y-m-d H:i:s');
 $nextMonth = date('Y-m', strtotime('last day of +'.$num.' month', strtotime($sdate)));
 $edate = date('d', strtotime($sdate)) > date('t', strtotime($nextMonth)) ?  date('Y-m-t h:i:s', strtotime('last day of +'.$num.' month', strtotime($sdate))) : date('Y-m-d H:i:s', strtotime('+'.$num.' month', strtotime($sdate)));
+
+// 开立方根
+exp(1/3*log($avolume)
 ?>

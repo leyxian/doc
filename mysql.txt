@@ -1,77 +1,111 @@
-mysql -uroot -p'' db
-
-CREATE USER 'username'@'host' IDENTIFIED BY 'password';
-GRANT privileges ON databasename.tablename TO 'username'@'host'
-GRANT ALL ON *.* TO 'pig'@'%';
-
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;
-
-grant replication slave on *.* to 'replicate'@'218.206.70.146' identified by '123456'; flush privileges;
-
-show variables like '%query%';
-[mysqld]
-log-slow-queries = /home/wwwlogs/mysql_slow_query.log
-long_query_time=3
-
-mysqldump -u root -p test > c:/a.sql
-
-mysql -u root -p
-mysql>use Êý¾Ý¿â
-mysql>source d:wcnc_db.sql
-
-ALTER TABLE `table_name` ADD PRIMARY KEY ( `column` ) 
-ALTER TABLE `table_name` ADD UNIQUE (`column`)
-ALTER TABLE `table_name` ADD INDEX index_name ( `column` ) 
-ALTER TABLE `table_name` ADD FULLTEXT ( `column`) 
-ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` )
-
-#·Ö¸î×Ö·û¼ÆËã
-Select (length(oids) - length(replace(oids,',',''))+1) as onum 
-
-##清除bin日志
-reset master
-
-####备份脚本####
-#!/bin/sh
-ID="root" #用户名
-#PWD="root" #密码
-DBS="db_zy audit" #数据库名字的列表，多个数据库用空格分开。
-BACKPATH="/home/vagrant/Code/mysql" #保存备份的位置
-DAY=7  #保留最近几天的备份
-[ ! -d $backpath ] &&mkdir -p $BACKPATH  #判断备份目录是否存在，不存时新建目录。
-cd $BACKPATH  #转到备份目录，这句话可以省略。可以直接将路径到命令的也行。
-#生成备份文件的名字的前缀，不带后缀。
-backupname=mysql_$(date +%Y-%m-%d)  
-for db in $DBS;  #dbs是一个数据名字的集合。遍历所有的数据。
-do
-  mysqldump $db -u$ID -proot > $backupname_$db.sql  #备份单个数据为.sql文件。放到当前位置
-done
-#压缩所有sql文件
-tar -czf $backupname.tar.gz *.sql
-#删除所有的sql文件
-rm -f *.sql
-#得到要删除的太旧的备份的名字。
-delname=mysql_$(date -d "$DAY day ago" +%Y-%m-%d).tar.gz
-#删除文件
-rm -f $delname
-
-####
-SELECT username,oid FROM tao86_order WHERE oid IN (473400,471658) ORDER BY INSTR(',473400,471658,',CONCAT(',',oid,','))
-
-SET @sum = 0;SELECT max(id),SUM(num) FROM (SELECT id,num,@sum:=@sum+num mysum FROM tao86_jpsales ORDER BY id ASC) t WHERE mysum<=10
-
-mysqlbinlog --start-date="2017-08-10 09:00:00" --stop-date="2017-08-10 09:30:00" mysql-bin.000016 > binlog16.txt
-
-
-SELECT 
-    o.id,o.tdate,o.goodcode,o.outnum,o.salePrice
-    ,costprice=CAST(SUM((CASE WHEN i.SumInNum>o.Sumoutnum THEN o.Sumoutnum ELSE i.SumInNum END -CASE WHEN o.Sumoutnum-o.OutNum>i.SumInNum-i.InNum THEN o.Sumoutnum-o.OutNum ELSE i.SumInNum-i.InNum END)*i.Price)/o.outnum AS MONEY)
-    ,costmoney=CAST(SUM((CASE WHEN i.SumInNum>o.Sumoutnum THEN o.Sumoutnum ELSE i.SumInNum END -CASE WHEN o.Sumoutnum-o.OutNum>i.SumInNum-i.InNum THEN o.Sumoutnum-o.OutNum ELSE i.SumInNum-i.InNum END)*i.Price) AS MONEY)
-FROM 
-(SELECT *,SumInNum=(SELECT SUM(InNum) FROM #in WHERE goodcode=i.goodcode AND id<=i.id) FROM #in AS i) AS i,
-(SELECT *,Sumoutnum=(SELECT SUM(outnum) FROM #out WHERE goodcode=i.goodcode AND id<=i.id) FROM #out AS i) AS o
-WHERE i.goodcode=o.goodcode AND i.SumInNum-i.InNum<o.Sumoutnum AND o.Sumoutnum-o.OutNum<i.SumInNum
-GROUP BY o.id,o.tdate,o.goodcode,o.outnum,o.salePrice
-
-###################123456####################
-mysqlbinlog --no-defaults --start-datetime="2016-11-17 00:00:00" --stop-datetime="2016-11-19 23:59:59" ./mysql-bin.000011 --result-file=mysql-bin.000011.sql
+SELECT
+    o.id,
+    o.shipment,
+    o.sku,
+    o.no,
+    o.num,
+    o.depot,
+    o.unit_price,
+    o.total_price,
+    i.SumInNum,
+    o.Sumoutnum,
+    i.unit_price,
+    (
+        SUM(
+            (
+                CASE
+                WHEN i.SumInNum > o.Sumoutnum THEN
+                    o.Sumoutnum
+                ELSE
+                    i.SumInNum
+                END - CASE
+                WHEN o.Sumoutnum - o.num > i.SumInNum - i.num THEN
+                    o.Sumoutnum - o.num
+                ELSE
+                    i.SumInNum - i.num
+                END
+            ) * i.unit_price
+        ) / o.num
+    ) costprice,
+    (
+        SUM(
+            (
+                CASE
+                WHEN i.SumInNum > o.Sumoutnum THEN
+                    o.Sumoutnum
+                ELSE
+                    i.SumInNum
+                END - CASE
+                WHEN o.Sumoutnum - o.num > i.SumInNum - i.num THEN
+                    o.Sumoutnum - o.num
+                ELSE
+                    i.SumInNum - i.num
+                END
+            ) * i.unit_price
+        )
+    ) costmoney
+FROM
+    (
+        SELECT
+            *, (
+                SELECT
+                    SUM(num)
+                FROM
+                    tao86_jppurchases
+                WHERE
+                    sku = i.sku
+                AND depot = i.depot
+                AND ver = (
+                    SELECT
+                        ver
+                    FROM
+                        tao86_v_jpversion v
+                    WHERE
+                        i.depot = v.depot
+                )
+                AND cdate <= i.cdate
+            ) SumInNum
+        FROM
+            tao86_jppurchases AS i
+    ) AS i,
+    (
+        SELECT
+            *, (
+                SELECT
+                    SUM(num)
+                FROM
+                    tao86_jpsales
+                WHERE
+                    sku = i.sku
+                AND depot = i.depot
+                AND shipment >= (
+                    SELECT
+                        mdate
+                    FROM
+                        tao86_v_jpverdate v
+                    WHERE
+                        i.depot = v.depot
+                )
+                AND shipment <= i.shipment
+            ) Sumoutnum
+        FROM
+            tao86_jpsales AS i
+    ) AS o
+WHERE
+    i.sku = o.sku
+AND i.SumInNum - i.num < o.Sumoutnum
+AND o.Sumoutnum - o.num < i.SumInNum
+AND o.sku = '4992440034713'
+AND o.shipment >= '2018-01-01'
+AND o.shipment <= '2018-09-01'
+AND o.depot = 5
+GROUP BY
+    o.id,
+    o.shipment,
+    o.depot,
+    o.sku,
+    o.num,
+    o.total_price
+ORDER BY
+    o.shipment DESC,
+    o.id DESC
