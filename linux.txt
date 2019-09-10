@@ -47,7 +47,7 @@ usr/local/tomcat/apache-tomcat-7.0.54/logs/catalina.out {
 
 	daily
 	
-copytruncate
+  copytruncate
 
 	compress
 
@@ -55,7 +55,7 @@ copytruncate
 
 	missingok
 	
-dateext
+  dateext
 
 }
 
@@ -188,6 +188,10 @@ iptables -I INPUT -s 180.162.0.0/16 -p tcp --dport 3306 -j ACCEPT
 
 iptables -I INPUT -s 36.7.0.0/16 -p tcp --dport 3306 -j ACCEPT
 
+iptables-save
+
+iptables-restore
+
 //####备份同步
 yum install xtrabackup
 
@@ -263,6 +267,13 @@ yum install epel-release
 //使用openssl 进行转换
 命令：openssl x509 -in api.transportjp.com.server.crt -out api.transportjp.com.server.cer -outform der
 
+//version 2
+openssl genrsa -des3 -out dev.apistore.transportjp.com.key 1024
+openssl req -new -subj /C=CN/ST=AnHui/L=HeFei/O=iTranswarp/OU=iTranswarp/CN=dev.apistore.transportjp.com -key dev.apistore.transportjp.com.key -out dev.apistore.transportjp.com.csr
+mv dev.apistore.transportjp.com.key dev.apistore.transportjp.com.origin.key
+openssl rsa -in dev.apistore.transportjp.com.origin.key -out dev.apistore.transportjp.com.key
+openssl x509 -req -days 3650 -in dev.apistore.transportjp.com.csr -signkey dev.apistore.transportjp.com.key -out dev.apistore.transportjp.com.crt
+
 <VirtualHost *:443>
    SSLEngine On
    SSLCertificateFile conf/ssl/server.crt
@@ -273,6 +284,9 @@ yum install epel-release
 
 //阿里云磁盘扩容
 //https://help.aliyun.com/document_detail/25452.html?spm=5176.11065259.1996646101.searchclickresult.1db338f2uDGalg
+
+//罗列磁盘
+lsblk -f
 
 重启服务器后
 
@@ -301,6 +315,11 @@ resize2fs /dev/xvdb # 变更文件系统大小
 
 mount /dev/xvdb /transimg
 
+# mount: you must specify the filesystem type
+mkfs.ext3 /dev/vdb 格式化
+
+##压缩
+tar -cjf *.tar.bz2 要打包的目录或文件
 
 ##解压
 tar -jxvf xx.tar.bz2
@@ -315,5 +334,28 @@ find /path -mtime +30 -type f -name \*.zip -exec rm -f {} \;
 ###流量查看
 iftop -i eth1 -P
 
-
+[rsync]
+-a 参数，相当于-rlptgoD，-r 是递归 -l 是链接文件，意思是拷贝链接文件；-p 表示保持文件原有权限；-t 保持文件原有时间；-g 保持文件原有用户组；-o 保持文件原有属主；-D 相当于块设备文件；
+-z 传输时压缩；
+-P 传输进度；
+-v 传输时的进度等信息，和-P有点关系
 rsync -avz --delete --exclude Application/Runtime/ userid@172.16.7.158::mokuai /var/www/html/rigouwang/ --password-file=/etc/rsyncd.pwd
+rsync -r 172.16.10.5:/etc /tmp 
+rsync -av 源目录 目标目录
+
+[inotifywait] 只要使用inotifywait检测到事件时，自动执行rsync进行同步操作即可。加上执行权限并在后台运行即可
+#!/bin/bash
+inotifywait -mrq -e create,close_write,move,delete,modify /var/www/html/  | while read a b c
+do     
+rsync -azP --delete /var/www/html/ root@192.168.94.29:/backup(或者rsync -azp /backup/ rsync_backup@192.168.94.29::backup --password-file=/et
+c/rsync.password)
+
+[scp]
+scp work@192.168.0.10:/home/work/source.txt /home/work/
+
+###php 安装
+ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
+
+wget https://dl.eff.org/certbot-auto
+chmod a+x certbot-auto
+certbot-auto certonly --text --agree-tos --webroot -w /transimg/www/transportjp -d style.transportjp.com

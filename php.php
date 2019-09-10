@@ -183,4 +183,7 @@ $edate = date('d', strtotime($sdate)) > date('t', strtotime($nextMonth)) ?  date
 
 // 开立方根
 exp(1/3*log($avolume)
+
+// curl ssl error
+export NSS_STRICT_NOFORK=DISABLED
 ?>

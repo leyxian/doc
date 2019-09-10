@@ -2,8 +2,6 @@ FROM php:7.2-apache
 
 RUN sed -i '1 i\deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib\n\deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib\n\deb http://mirrors.aliyun.com/debian-security stretch/updates main\ndeb-src http://mirrors.aliyun.com/debian-security stretch/updates main\n\deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib\n\deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib\n\deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib\n\deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib\n' /etc/apt/sources.list
 
-# COPY /transimg/www/ /var/www/html/
-
 # Extensions: ctype, dom, fileinfo, ftp, hash, iconv, json, pdo, pdo_sqlite, session,
 # tokenizer, simplexml, xml, xmlreader, xmlwriter and phar are bundled and compiled into
 # PHP by default. If missing, install them directly by `docker-php-ext-install extension_name`
@@ -115,6 +113,12 @@ RUN pecl install redis-4.0.1 \
     && docker-php-ext-enable redis xdebug
 
 RUN apt-get update && apt-get install -y libmemcached-dev zlib1g-dev \
-    && pecl install memcached-2.2.0 \
+    && pecl install memcached-3.0.4 \
     && docker-php-ext-enable memcached
+
+# 时区更改
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+RUN a2enmod ssl  
+RUN a2enmod rewrite
 

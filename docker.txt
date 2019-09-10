@@ -31,7 +31,7 @@ docker build -t soar/centos:7.1 .
 【以镜像soar/centos:7.1创建名为test的容器，并以后台模式运行，并做端口映射到宿主机2222端口，P参数重启容器宿主机端口会发生改变】
 docker run -d -p 2222:22 --name test soar/centos:7.1
 
-docker run -d -p 80:80 443:443 -v d:/web:/www/wwwroot --link=memcache:memcache lnmp richarvey/nginx-php-fpm:php5
+docker run -d -p 80:80 -p 443:443 -v d:/web:/www/wwwroot --link=memcache:memcache lnmp richarvey/nginx-php-fpm:php5
 
 docker run --name my-memcache -d memcached
 
@@ -64,3 +64,18 @@ docker commit -a "runoob.com" -m "my apache" a404c6c174a2  mymysql:v1
 
 【自启动】
 docker update --restart=always [容器名]
+
+【访问宿主机】
+RUN /sbin/ip route|awk '/default/ { print  $3,"\tdockerhost" }' >> /etc/hosts
+
+
+【laradock】
+PHP_VERSION=7.2
+WORKSPACE_INSTALL_SOAP=true
+WORKSPACE_INSTALL_IMAP=true
+WORKSPACE_TIMEZONE=Asia/Shanghai
+PHP_FPM_INSTALL_MEMCACHE=true
+PHP_FPM_INSTALL_IMAP=true
+PHP_FPM_INSTALL_SOAP=true
+WORKSPACE_INSTALL_NPM_GULP=false
+WORKSPACE_INSTALL_YARN=false
