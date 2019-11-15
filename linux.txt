@@ -359,3 +359,12 @@ ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
 wget https://dl.eff.org/certbot-auto
 chmod a+x certbot-auto
 certbot-auto certonly --text --agree-tos --webroot -w /transimg/www/transportjp -d style.transportjp.com
+
+[extundelete] 文件恢复工具
+extundelete /dev/vdb --inode 2
+
+ls -id 查看node
+
+[shell]
+path=$(cd `dirname $0`; pwd)
+nohup mysql -uroot -pMJsujrctG6pU0OUG -h172.24.63.203 < $path/tao86_f_opij.sql 2>&1 &
