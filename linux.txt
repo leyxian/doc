@@ -356,6 +356,7 @@ scp work@192.168.0.10:/home/work/source.txt /home/work/
 ###php °²×°
 ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
 
+[https]
 wget https://dl.eff.org/certbot-auto
 chmod a+x certbot-auto
 certbot-auto certonly --text --agree-tos --webroot -w /transimg/www/transportjp -d style.transportjp.com
