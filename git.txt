@@ -26,6 +26,7 @@ git push -u origin master
 2.到coding.net 帐号-SSH公钥 添加公钥
 3.下载项目
 git clone git@git.coding.net:coding帐号名/coding创建的项目名.git 文件夹名(不写则为项目名)
+git clone -b 分支名
 例：git@git.coding.net:newley1105/test.git
 
 【密钥】
@@ -49,10 +50,10 @@ git add .
 git commit -am '修改备注'
 记录下已经修改的文件
 
-git push origin [远程仓库只有一个可不写,默认,后面命令同理]
+git push <远程主机名> <本地分支名>:<远程分支名>
 推送本地日志到远程origin仓库
 
-git push -u origin master
+git push <远程主机名> <本地分支名>:<远程分支名>
 推送本地的master分支推送到origin主机的master分支(-u origin [origin设为默认主机])
 
 git push -f origin master
@@ -88,12 +89,16 @@ git branch test
 git branch -D test
 git checkout test
 git push 本地分支:远程分支
+【删除远程分支】
+git push origin --delete test
 
 【分支合并】
 git merge 分支名
 
 【提取分支文件】
 git checkout 分支名 文件
+git checkout -b 分支名 origin/分支名
+git checkout tagName
 
 【数据库维护】
 git count-objects -v
