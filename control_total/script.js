@@ -14,8 +14,12 @@ var buys = "C:\\Users\\idear_0121\\Documents\\Plugin\\buys.bmp";
 var send = "C:\\Users\\idear_0121\\Documents\\Plugin\\send.bmp";
 var psend = "C:\\Users\\idear_0121\\Documents\\Plugin\\psend.bmp";
 var iexpno = "C:\\Users\\idear_0121\\Documents\\Plugin\\iexpno.bmp";
+var font = "C:\\Users\\idear_0121\\Documents\\Plugin\\jpn.traineddata";
 
-
+var ret = device.uploadTessData("E:\\mytest\\产品20180611\\orc\\chi_sim.traineddata"); 
+if(!ret){
+	print("字库上传失败");
+}
 
 var apppkg = "com.kouzoh.mercari";
 
@@ -77,8 +81,8 @@ if(ret == apppkg){
 			while(i<6){
 				offset = 460+(i*224);
 				offset2 = 460+(i*224)+224;
-				print('查找坐标215,'+offset+',530,'+offset2);
-				ret = device.seekImage("@0", 215,offset,530,offset2, send);
+				print('查找坐标10,'+offset+',1070,'+offset2);
+				ret = device.seekImage("@0", 10,offset,1070,offset2, send);
 				if(ret == null){
 					print('未匹配');
 				}else{
