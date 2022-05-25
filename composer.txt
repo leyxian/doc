@@ -1,0 +1,13 @@
+{
+    "require": {
+        "twbs/bootstrap": "^3.3"
+    }
+}
+
+### 引入本地项目 ###
+"repositories": [
+    {
+      "type": "path",
+      "url": "../framwork"
+    }
+]

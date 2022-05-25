@@ -100,6 +100,9 @@ git checkout 分支名 文件
 git checkout -b 分支名 origin/分支名
 git checkout tagName
 
+【主项目添加子模块】
+git submodule add 
+
 【数据库维护】
 git count-objects -v
 

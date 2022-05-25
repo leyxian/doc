@@ -34,13 +34,20 @@ docker run -d -p 2222:22 --name test soar/centos:7.1 /usr/sbin/init
 
 docker run -d -p 80:80 -p 443:443 -v d:/web:/www/wwwroot --link=memcache:memcache lnmp richarvey/nginx-php-fpm:php5
 
-docker run -itd --name c8 --privileged -p 8888:8888 -p 80:80 -p 22:22 -p 3306:3306 -p 8099:8099 -v E:/Web:/www/wwwroot centos:v3 /usr/sbin/init
+docker run -itd --name c8 --privileged -p 8888:8888 -p 80:80 -p 22:22 -p 3306:3306 -p 8099:8099 -v F:/php:/www/wwwroot centos /usr/sbin/init
+
+[service not found]
+yum install initscripts 
 
 docker run --name my-memcache -d memcached
 
 docker run --link my-memcache:memcache -d my-app-image
 
 docker run --name my-memcache -d memcached memcached -m 64
+
+【centos8 yum】
+sudo sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
+sudo sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
 
 【修改端口】
 cd /var/lib/docker/3b6ef264a040* #这里是CONTAINER ID
