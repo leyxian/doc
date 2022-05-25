@@ -402,7 +402,7 @@ scp work@192.168.0.10:/home/work/source.txt /home/work/
 ###php °²×°
 ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
 
-[https]
+# ssl
 wget https://dl.eff.org/certbot-auto
 chmod a+x certbot-auto
 certbot-auto certonly --text --agree-tos --webroot -w /transimg/www/transportjp -d style.transportjp.com
@@ -419,6 +419,14 @@ sudo certbot certonly --nginx
 sudo certbot renew --dry-run
 
 sudo certbot --nginx --nginx-server-root=/www/server/nginx/conf/
+
+certbot certonly --nginx --nginx-server-root=/www/server/nginx/conf/ --email 353373021@qq.com -d dianshang.ahmorewin.com -d hailiang2.ahmorewin.com
+
+## 检查网络是否正常
+```
+curl -4 -v https://acme-v02.api.letsencrypt.org/directory
+curl -6 -v https://acme-v02.api.letsencrypt.org/directory
+```
 
 [extundelete] ÎÄ¼þ»Ö¸´¹¤¾ß
 extundelete /dev/vdb --inode 2
