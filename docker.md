@@ -89,3 +89,21 @@ PHP_FPM_INSTALL_IMAP=true
 PHP_FPM_INSTALL_SOAP=true
 WORKSPACE_INSTALL_NPM_GULP=false
 WORKSPACE_INSTALL_YARN=false
+
+# WSL
+## 修改wsl版本
+wsl --set-version <name> 1
+
+## 查看
+wsl -l -v
+
+# .wslconfig
+```
+[wsl2]
+guiApplications=false
+memory=2GB
+swap=1GB
+swapFile=F:\wsl\centos\swap.vhdx
+processors=1
+localhostForwarding=true
+```
