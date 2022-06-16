@@ -1,10 +1,12 @@
 ﻿# git
 
 ## 下载
-* https://git-scm.com/download/win
+
+* `https://git-scm.com/download/win`
 * 安装后在文件夹下右击 Git Bash Here
 
 ## 初始化仓库
+
 ```
 git init --bare
 ```
@@ -64,7 +66,9 @@ git remote remove origin
 git fetch
 git merge [branch_name] [origin_name]/[branch_name]
 ```
+
 ## 查看所有远程仓库
+
 ```
 git remote -v
 ```
