@@ -37,7 +37,7 @@ git push [origin_name] [local_branch_name]:[remote_branch_name]
 ## 下载项目[clone]
 ```
 git clone url
-git clone -b branch_name
+git clone -b branch_name [url]
 ```
 ## 拉取更新
 ```
