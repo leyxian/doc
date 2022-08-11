@@ -182,8 +182,36 @@ $nextMonth = date('Y-m', strtotime('last day of +'.$num.' month', strtotime($sda
 $edate = date('d', strtotime($sdate)) > date('t', strtotime($nextMonth)) ?  date('Y-m-t h:i:s', strtotime('last day of +'.$num.' month', strtotime($sdate))) : date('Y-m-d H:i:s', strtotime('+'.$num.' month', strtotime($sdate)));
 
 // 开立方根
-exp(1/3*log($avolume)
+exp(1/3*log($avolume);
 
 // curl ssl error
-export NSS_STRICT_NOFORK=DISABLED
+export NSS_STRICT_NOFORK=DISABLED;
+
+    /**
+     * 随机分配红包
+     *
+     * @param integer $totalBonus 总红包金额
+     * @param integer $totalNum 红包数量
+     * @param integer $sendedBonus 已发送金额
+     * @param integer $sendedNum 已发送份数
+     * @param integer $rdMin 随机下限
+     * @param integer $rdMax 随机上限
+     * @param float $bigRate
+     * @return void
+     */
+    function randomBonusWithSpecifyBound(int $totalBonus, int $totalNum, float $sendedBonus, int $sendedNum, float $rdMin, float $rdMax) {
+      $minBonus = max(0.01, $rdMin); //最小金额
+      $yeBonus = round($totalBonus - $sendedBonus, 2);
+      $yeNum = $totalNum - $sendedNum;
+      if($totalNum - 1 > $sendedNum){
+          if($yeBonus <= $rdMin) return $yeBonus;
+          $maxBonus = $rdMax > 0 ? round(min($rdMax, $yeBonus / $yeNum * 2), 2) : round($yeBonus / $yeNum * 2, 2);
+          return $maxBonus <= $minBonus ? $minBonus : rand($minBonus * 100, $maxBonus * 100) / 100;
+      }else{
+          if($yeBonus <= $rdMax)
+              return max(0, $yeBonus);
+          else
+              return $rdMax;
+      }
+  }
 ?>
