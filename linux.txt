@@ -326,8 +326,12 @@ tar zxvf pythontab.tar.gz
 memcached -d -p 11211 -u memcached -m 64 -c 1024 -P -U 0 /var/run/memcached/memcached.pid -U 0
 memcached -d -m 1024 -u root -l 127.0.0.1 -p 11211 -c 1024 -P /tmp/memcached.pid
 
-###É¾³ýÖ¸¶¨ÈÕÆÚÎÄ¼þ
+# find
+## 删除30天以外的文件
 find /path -mtime +30 -type f -name \*.zip -exec rm -f {} \;
+
+## 查找指定内容的文件
+find . -type f -name "index.php" -exec grep -r -l "html" {} \;
 
 ###Á÷Á¿²é¿´
 iftop -i eth1 -P
@@ -405,7 +409,9 @@ ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
 # ssl
 wget https://dl.eff.org/certbot-auto
 chmod a+x certbot-auto
-certbot-auto certonly --text --agree-tos --webroot -w /transimg/www/transportjp -d style.transportjp.com
+certbot-auto certonly --text --agree-tos --webroot -w /usr/local/nginx/conf/ssl/ -d ds.ahmorewin.com
+
+certbot --nginx -d ds.ahmorewin.com --agree-tos  -n
 
 sudo yum install snapd
 sudo systemctl enable --now snapd.socket
@@ -464,3 +470,6 @@ wget http://mirrors.cloud.aliyuncs.com/repo/epel-archive-8.repo -O /etc/yum.repo
 
 sed -i 's/mirrors.cloud.aliyuncs.com/url_tmp/g'  /etc/yum.repos.d/Centos-vault-8.5.2111.repo &&  sed -i 's/mirrors.aliyun.com/mirrors.cloud.aliyuncs.com/g' /etc/yum.repos.d/Centos-vault-8.5.2111.repo && sed -i 's/url_tmp/mirrors.aliyun.com/g' /etc/yum.repos.d/Centos-vault-8.5.2111.repo
 sed -i 's/mirrors.aliyun.com/mirrors.cloud.aliyuncs.com/g' /etc/yum.repos.d/epel-archive-8.repo
+
+## git 用户
+git:x:996:994::/var/opt/gitlab:/bin/sh
