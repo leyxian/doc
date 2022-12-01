@@ -1,4 +1,3 @@
-<<<<<<< HEAD:mysql.sql
 mysql -uroot -p'' db
 
 CREATE USER 'username'@'host' IDENTIFIED BY 'password';
@@ -303,13 +302,10 @@ WHERE i.goodcode=o.goodcode AND i.SumInNum-i.InNum<o.Sumoutnum AND o.Sumout
 GROUP BY o.id,o.tdate,o.goodcode,o.outnum,o.salePrice
 
 show master status;
-###################123456####################
-<<<<<<< HEAD
+
 mysqlbinlog --no-defaults --start-datetime="2020-11-17 00:00:00" --stop-datetime="2016-11-19 23:59:59" ./mysql-bin.000011 --result-file=mysql-bin.000011.sql
 
 /usr/local/mysql/bin/mysqlbinlog --base64-output=decode-rows -v --start-datetime="2020-2-21 00:00:00" --stop-datetime="2020-2-22 10:30:00" -d transportjp ./mysql-bin.000193 --result-file=mysql-bin.000193.sql
-=======
-mysqlbinlog --no-defaults --start-datetime="2016-11-17 00:00:00" --stop-datetime="2016-11-19 23:59:59" ./mysql-bin.000011 --result-file=mysql-bin.000011.sql
 
 //定位日志记录
 mysqlbinlog --no-defaults -v -v --base64-output=DECODE-ROWS mysql-bin.000167 | grep -A '10' 195993466
@@ -427,4 +423,6 @@ BEGIN
     INSERT INTO tao86_jpopij SELECT * FROM tao86_t_opij;
     DROP TABLE tao86_t_opij;
 END
->>>>>>> 527fc56d4c4fa032c9faf0d1463762237423079e:mysql.txt
+
+-- 批量替换表前缀
+SELECT CONCAT( 'ALTER TABLE ', table_name, ' RENAME TO blog_', substring(table_name, 5),';') FROM information_schema.tables where table_schema='whmblog' and table_name LIKE 'whm_%';
