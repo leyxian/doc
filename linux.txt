@@ -473,3 +473,6 @@ sed -i 's/mirrors.aliyun.com/mirrors.cloud.aliyuncs.com/g' /etc/yum.repos.d/epel
 
 ## git 用户
 git:x:996:994::/var/opt/gitlab:/bin/sh
+
+## openssh 秘钥转换 rsa
+ssh-keygen -p -N "" -m pem -f /path/to/fil

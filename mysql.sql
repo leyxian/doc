@@ -425,4 +425,4 @@ BEGIN
 END
 
 -- 批量替换表前缀
-SELECT CONCAT( 'ALTER TABLE ', table_name, ' RENAME TO blog_', substring(table_name, 5),';') FROM information_schema.tables where table_schema='whmblog' and table_name LIKE 'whm_%';
+SELECT CONCAT( 'ALTER TABLE ', table_name, ' RENAME TO blog_', substring(table_name, 5),';') FROM information_schema.tables where table_schema='数据库名' and table_name LIKE 'whm_%';
